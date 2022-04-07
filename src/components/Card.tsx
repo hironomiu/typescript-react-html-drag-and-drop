@@ -1,6 +1,5 @@
-import React from 'react'
-
-const Card = ({ card }: any) => {
+import { CardType } from '../types'
+const Card = ({ card }: { card: CardType }) => {
   return (
     <div
       id={card.id.toString()}

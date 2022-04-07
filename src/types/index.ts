@@ -1,1 +1,1 @@
-export type Card = {}
+export type CardType = { id: number; title: string }

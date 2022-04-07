@@ -1,18 +1,15 @@
 import { useState } from 'react'
 import Cards from './Cards'
+import { CardType } from '../types'
 
-type Todo = {
-  id: number
-  title: string
-}
 const Main = () => {
-  const [todos, setTodos] = useState<Todo[] | []>([
+  const [todos, setTodos] = useState<CardType[] | []>([
     { id: 1, title: 'todo title1' },
     { id: 2, title: 'todo title2' },
     { id: 3, title: 'todo title3' },
   ])
-  const [doings, setDoings] = useState<Todo[] | []>([])
-  const [dones, setDones] = useState<Todo[] | []>([])
+  const [doings, setDoings] = useState<CardType[] | []>([])
+  const [dones, setDones] = useState<CardType[] | []>([])
   const [dragged, setDragged] = useState<{
     id: number
     current: 'todo' | 'doing' | 'done'
