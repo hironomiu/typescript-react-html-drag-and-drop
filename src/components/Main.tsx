@@ -113,17 +113,21 @@ const Main = () => {
     }
   }
 
-  const styleActive =
-    'w-[20vw] h-[80vh] bg-orange-500 mx-4 flex flex-col wjustify-center items-center'
-  const styleInactive =
-    'w-[20vw] h-[80vh] bg-orange-300 mx-4 flex flex-col justify-center items-center'
+  const styleMain =
+    'w-[20vw] h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl'
+  const styleActive = 'bg-blue-500'
+  const styleInactive = 'bg-blue-300'
 
   return (
     <>
       <div className="flex w-screen m-10">
         {/* ------------------------------------------------------ */}
         <div
-          className={isTodo ? `todo ${styleActive}` : `todo ${styleInactive}`}
+          className={
+            isTodo
+              ? `todo ${styleMain} ${styleActive}`
+              : `todo ${styleMain}  ${styleInactive}`
+          }
           onDrag={handleOnDrag}
           onDragStart={() => console.log('todo drag start')}
           onDragEnd={handleTodoOnDragEnd}
@@ -140,12 +144,14 @@ const Main = () => {
           }}
           onDragEnter={() => console.log('todo drag enter')}
         >
-          <Cards cards={todos} />
+          <Cards title="Todo" cards={todos} />
         </div>
         {/* ------------------------------------------------------ */}
         <div
           className={
-            isDoing ? `doing ${styleActive}` : `doing ${styleInactive}`
+            isDoing
+              ? `doing ${styleMain} ${styleActive}`
+              : `doing ${styleMain} ${styleInactive}`
           }
           onDrag={handleOnDrag}
           onDragEnd={handleDoingOnDragEnd}
@@ -162,11 +168,15 @@ const Main = () => {
           }}
           onDragEnter={() => console.log('doing drag enter')}
         >
-          <Cards cards={doings} />
+          <Cards title="Doing" cards={doings} />
         </div>
         {/* ------------------------------------------------------ */}
         <div
-          className={isDone ? `done ${styleActive}` : `done ${styleInactive}`}
+          className={
+            isDone
+              ? `done ${styleMain} ${styleActive}`
+              : `done ${styleMain} ${styleInactive}`
+          }
           onDrag={handleOnDrag}
           onDragEnd={handleDoneDragEnd}
           onDragOver={(e) => {
@@ -181,7 +191,7 @@ const Main = () => {
           }}
           onDragEnter={() => console.log('done dragenter:')}
         >
-          <Cards cards={dones} />
+          <Cards title="Done" cards={dones} />
         </div>
       </div>
     </>

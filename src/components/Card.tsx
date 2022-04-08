@@ -6,9 +6,9 @@ const Card = ({ card }: { card: CardType }) => {
       id={card.id.toString()}
       key={card.id}
       draggable
-      className="draggable w-[15vw] h-[20vh] bg-orange-600 my-2"
+      className="draggable w-[15vw] h-[20vh] bg-green-500 my-2 rounded-xl flex items-center justify-center"
     >
-      {card.title}
+      <span>{card.title}</span>
     </div>
   )
 }
