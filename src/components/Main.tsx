@@ -20,6 +20,7 @@ const Main = () => {
   const [isDoing, setIsDoing] = useState<boolean>(false)
   const [isDone, setIsDone] = useState<boolean>(false)
 
+  // TODO 型
   const handleOnDrag = (e: any) => {
     // console.log(e.currentTarget.className.split(' '), e.target.id)
     console.log(e.currentTarget.className.split(' ')[0])
@@ -112,16 +113,17 @@ const Main = () => {
     }
   }
 
+  const styleActive =
+    'w-[20vw] h-[80vh] bg-orange-500 mx-4 flex flex-col wjustify-center items-center'
+  const styleInactive =
+    'w-[20vw] h-[80vh] bg-orange-300 mx-4 flex flex-col justify-center items-center'
+
   return (
     <>
       <div className="flex w-screen m-10">
         {/* ------------------------------------------------------ */}
         <div
-          className={
-            isTodo
-              ? `todo w-[20vw] h-[80vh] bg-orange-500 mx-4 flex flex-col justify-center items-center`
-              : `todo w-[20vw] h-[80vh] bg-orange-300 mx-4 flex flex-col justify-center items-center`
-          }
+          className={isTodo ? `todo ${styleActive}` : `todo ${styleInactive}`}
           onDrag={handleOnDrag}
           onDragStart={() => console.log('todo drag start')}
           onDragEnd={handleTodoOnDragEnd}
@@ -143,9 +145,7 @@ const Main = () => {
         {/* ------------------------------------------------------ */}
         <div
           className={
-            isDoing
-              ? `doing w-[20vw] h-[80vh] bg-orange-500 mx-4 flex flex-col justify-center items-center`
-              : `doing w-[20vw] h-[80vh] bg-orange-300 mx-4 flex flex-col justify-center items-center`
+            isDoing ? `doing ${styleActive}` : `doing ${styleInactive}`
           }
           onDrag={handleOnDrag}
           onDragEnd={handleDoingOnDragEnd}
@@ -166,11 +166,7 @@ const Main = () => {
         </div>
         {/* ------------------------------------------------------ */}
         <div
-          className={
-            isDone
-              ? `done w-[20vw] h-[80vh] bg-orange-500 mx-4 flex flex-col justify-center items-center`
-              : `done w-[20vw] h-[80vh] bg-orange-300 mx-4 flex flex-col justify-center items-center`
-          }
+          className={isDone ? `done ${styleActive}` : `done ${styleInactive}`}
           onDrag={handleOnDrag}
           onDragEnd={handleDoneDragEnd}
           onDragOver={(e) => {

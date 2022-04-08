@@ -1,4 +1,5 @@
 import { CardType } from '../types'
+
 const Card = ({ card }: { card: CardType }) => {
   return (
     <div
