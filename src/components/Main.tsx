@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Cards from './Cards'
 import { CardType } from '../types'
 
@@ -20,27 +20,26 @@ const Main = () => {
   const [isDoing, setIsDoing] = useState<boolean>(false)
   const [isDone, setIsDone] = useState<boolean>(false)
 
-  // TODO 型
-  const handleOnDrag = (e: any) => {
+  const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
     // console.log(e.currentTarget.className.split(' '), e.target.id)
     console.log(e.currentTarget.className.split(' ')[0])
 
     if (e.currentTarget.className.split(' ').find((a: string) => a === 'todo'))
       setDragged((_prev) => ({
         ..._prev,
-        id: Number(e.target.id),
+        id: Number((e.target as HTMLDivElement).id),
         current: 'todo',
       }))
     if (e.currentTarget.className.split(' ').find((a: string) => a === 'doing'))
       setDragged((_prev) => ({
         ..._prev,
-        id: Number(e.target.id),
+        id: Number((e.target as HTMLDivElement).id),
         current: 'doing',
       }))
     if (e.currentTarget.className.split(' ').find((a: string) => a === 'done'))
       setDragged((_prev) => ({
         ..._prev,
-        id: Number(e.target.id),
+        id: Number((e.target as HTMLDivElement).id),
         current: 'done',
       }))
   }
