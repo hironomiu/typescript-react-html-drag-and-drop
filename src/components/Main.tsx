@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import Cards from './Cards'
 import { CardType } from '../types'
 
