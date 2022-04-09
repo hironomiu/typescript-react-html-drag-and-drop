@@ -8,6 +8,12 @@ HTML Drag & Drop API を利用したドラッグ&ドロップ
 npm start
 ```
 
+## Testing
+
+```
+npm test -- --coverage .
+```
+
 ## Install Memo
 
 ```
