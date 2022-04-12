@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import Cards from './Cards'
 import { CardType } from '../types'
 
@@ -93,9 +93,11 @@ const Main = () => {
   }
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    // preventDefaultをすることでCardの動きがcurrentに戻る動作（戻ってからtargetに配置される）を防ぐ
     e.preventDefault()
     const current = e.currentTarget.className.split(' ')[0]
     console.log('drag over:', current)
+
     if (current === 'todo') {
       setDragged((_prev) => ({ ..._prev, target: current }))
       setIsTodo(true)
