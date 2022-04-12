@@ -20,6 +20,7 @@ const Main = () => {
 
   const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
     console.log('on drag:', e.currentTarget.className.split(' ')[0])
+    // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
     const current = e.currentTarget.className.split(' ')[0]
 
     if (current === 'todo' || current === 'doing' || current === 'done')
@@ -35,20 +36,21 @@ const Main = () => {
     const newData = todos.filter((todo) => todo.id !== dragged.id)
     setTodos(newData)
 
+    // TODO: switch & never で縛る
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
-      // todo -> doing,todo -> done
+      // todo -> doing or done
       console.log('todo drag end:', dragged)
 
       if (dragged.target === 'doing') card[0].type = 2
       if (dragged.target === 'done') card[0].type = 3
     } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
-      // doing -> done,doing -> todo
+      // doing -> done or todo
       console.log('doing drag end:', dragged)
 
       if (dragged.target === 'done') card[0].type = 3
       if (dragged.target === 'todo') card[0].type = 1
     } else if (dragged.current === 'done' && dragged.target !== 'done') {
-      // done -> doing,done -> todo
+      // done -> doing or todo
       console.log('done drag end:', dragged)
 
       if (dragged.target === 'doing') card[0].type = 2
@@ -70,14 +72,16 @@ const Main = () => {
     const current = e.currentTarget.className.split(' ')[0]
     console.log('drag over:', current)
 
-    if (current === 'todo') {
+    if (current === 'todo' || current === 'doing' || current === 'done') {
       setDragged((_prev) => ({ ..._prev, target: current }))
+    }
+
+    // TODO: switch & never で縛る
+    if (current === 'todo') {
       setIsTodo(true)
     } else if (current === 'doing') {
-      setDragged((_prev) => ({ ..._prev, target: current }))
       setIsDoing(true)
     } else if (current === 'done') {
-      setDragged((_prev) => ({ ..._prev, target: current }))
       setIsDone(true)
     } else {
       console.log('drag over error!!:', current)
@@ -132,7 +136,6 @@ const Main = () => {
           }}
           onDragEnter={() => console.log('doing drag enter')}
         >
-          {/* <Cards title="Doing" cards={doings} /> */}
           <Cards
             title="Doing"
             cards={todos.filter((todo) => todo.type === 2)}
