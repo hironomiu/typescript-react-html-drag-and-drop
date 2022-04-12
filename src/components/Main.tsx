@@ -31,70 +31,38 @@ const Main = () => {
   }
 
   const handleDragEnd = () => {
+    const card = todos.filter((todo) => todo.id === dragged.id)
+    const newData = todos.filter((todo) => todo.id !== dragged.id)
+    setTodos(newData)
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
       console.log('todo drag end:', dragged)
 
-      let card = todos.filter((todo) => todo.id === dragged.id)
-      const newData = todos.filter((todo) => todo.id !== dragged.id)
-      setTodos(newData)
       // todo -> doing
-      if (dragged.target === 'doing') {
-        card[0].type = 2
-        if (card) setTodos((_prev) => [..._prev, card[0]])
-        setIsDoing(false)
-      }
+      if (dragged.target === 'doing') card[0].type = 2
       // todo -> done
-      if (dragged.target === 'done') {
-        console.log('called')
-        card[0].type = 3
-        if (card) setTodos((_prev) => [..._prev, ...card])
-        setIsDone(false)
-      }
-      setDragged({ id: 0, current: 'todo', target: 'todo' })
+      if (dragged.target === 'done') card[0].type = 3
     } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
       console.log('doing drag end:', dragged)
 
-      const card = todos.filter((todo) => todo.id === dragged.id)
-      const newData = todos.filter((todo) => todo.id !== dragged.id)
-      setTodos(newData)
       // doing -> done
-      if (dragged.target === 'done') {
-        card[0].type = 3
-        if (card) setTodos((_prev) => [..._prev, ...card])
-        setIsDone(false)
-      }
+      if (dragged.target === 'done') card[0].type = 3
       // doing -> todo
-      if (dragged.target === 'todo') {
-        card[0].type = 1
-        if (card) setTodos((_prev) => [..._prev, ...card])
-        setIsTodo(false)
-      }
-      setDragged({ id: 0, current: 'todo', target: 'todo' })
+      if (dragged.target === 'todo') card[0].type = 1
     } else if (dragged.current === 'done' && dragged.target !== 'done') {
       console.log('done drag end:', dragged)
 
-      const card = todos.filter((todo) => todo.id === dragged.id)
-      const newData = todos.filter((todo) => todo.id !== dragged.id)
-      setTodos(newData)
       // done -> doing
-      if (dragged.target === 'doing') {
-        card[0].type = 2
-        if (card) setTodos((_prev) => [..._prev, ...card])
-        setIsDoing(false)
-      }
+      if (dragged.target === 'doing') card[0].type = 2
       // done -> todo
-      if (dragged.target === 'todo') {
-        card[0].type = 1
-        if (card) setTodos((_prev) => [..._prev, ...card])
-        setIsTodo(false)
-      }
-      setDragged({ id: 0, current: 'todo', target: 'todo' })
+      if (dragged.target === 'todo') card[0].type = 1
     } else {
       console.log('drag end else!!!!!!!:', dragged)
-      setIsTodo(false)
-      setIsDoing(false)
-      setIsDone(false)
     }
+    setTodos((_prev) => [..._prev, card[0]])
+    setDragged({ id: 0, current: 'todo', target: 'todo' })
+    setIsTodo(false)
+    setIsDoing(false)
+    setIsDone(false)
   }
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
