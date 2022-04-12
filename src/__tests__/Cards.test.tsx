@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import Cards from '../components/Cards'
-import { CardType } from '../types'
+import { Todo } from '../types'
 describe('Cards', () => {
-  const cards: CardType[] = [
+  const cards: Todo[] = [
     {
       id: 1,
       title: 'dummy title 1',
+      type: 1,
     },
   ]
   it('Cards', () => {

@@ -1,11 +1,11 @@
 import Card from './Card'
-import { CardType } from '../types'
+import { Todo } from '../types'
 
-const Cards = ({ title, cards }: { title: string; cards: CardType[] }) => {
+const Cards = ({ title, cards }: { title: string; cards: Todo[] }) => {
   return (
     <div className="my-4 flex flex-col items-center">
       <span className="font-bold">{title}</span>
-      {cards.map((card: CardType) => (
+      {cards.map((card: Todo) => (
         <Card key={card.id} card={card} />
       ))}
     </div>

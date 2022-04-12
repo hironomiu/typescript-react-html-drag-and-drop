@@ -1,6 +1,6 @@
-import { CardType } from '../types'
+import { Todo } from '../types'
 
-const Card = ({ card }: { card: CardType }) => {
+const Card = ({ card }: { card: Todo }) => {
   return (
     <div
       id={card.id.toString()}
