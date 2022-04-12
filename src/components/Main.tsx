@@ -21,28 +21,17 @@ const Main = () => {
   const [isDone, setIsDone] = useState<boolean>(false)
 
   const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
-    // console.log(e.currentTarget.className.split(' '), e.target.id)
-    console.log(e.currentTarget.className.split(' ')[0])
+    console.log('on drag:', e.currentTarget.className.split(' ')[0])
+    const current = e.currentTarget.className.split(' ')[0]
 
-    if (e.currentTarget.className.split(' ').find((a: string) => a === 'todo'))
+    if (current === 'todo' || current === 'doing' || current === 'done')
       setDragged((_prev) => ({
         ..._prev,
         id: Number((e.target as HTMLDivElement).id),
-        current: 'todo',
-      }))
-    if (e.currentTarget.className.split(' ').find((a: string) => a === 'doing'))
-      setDragged((_prev) => ({
-        ..._prev,
-        id: Number((e.target as HTMLDivElement).id),
-        current: 'doing',
-      }))
-    if (e.currentTarget.className.split(' ').find((a: string) => a === 'done'))
-      setDragged((_prev) => ({
-        ..._prev,
-        id: Number((e.target as HTMLDivElement).id),
-        current: 'done',
+        current: current,
       }))
   }
+
   const handleDragEnd = () => {
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
       console.log('todo drag end:', dragged)
@@ -103,25 +92,24 @@ const Main = () => {
     }
   }
 
-  const handleTodoDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
-    console.log('todo drag over')
-    setDragged((_prev) => ({ ..._prev, target: 'todo' }))
-    setIsTodo(true)
-  }
+    const current = e.currentTarget.className.split(' ')[0]
+    console.log('drag over:', current)
+    if (current === 'todo') {
+      setDragged((_prev) => ({ ..._prev, target: current }))
+      setIsTodo(true)
+    }
 
-  const handleDoingDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    console.log('doing drag over')
-    setDragged((_prev) => ({ ..._prev, target: 'doing' }))
-    setIsDoing(true)
-  }
+    if (current === 'doing') {
+      setDragged((_prev) => ({ ..._prev, target: current }))
+      setIsDoing(true)
+    }
 
-  const handleDoneDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    console.log('done drag over')
-    setDragged((_prev) => ({ ..._prev, target: 'done' }))
-    setIsDone(true)
+    if (current === 'done') {
+      setDragged((_prev) => ({ ..._prev, target: current }))
+      setIsDone(true)
+    }
   }
 
   const styleMain =
@@ -142,7 +130,7 @@ const Main = () => {
           onDrag={handleOnDrag}
           onDragStart={() => console.log('todo drag start')}
           onDragEnd={handleDragEnd}
-          onDragOver={handleTodoDragOver}
+          onDragOver={handleDragOver}
           onDrop={() => console.log('todo on drop')}
           onDragLeave={() => {
             console.log('todo drag leave')
@@ -161,7 +149,7 @@ const Main = () => {
           }
           onDrag={handleOnDrag}
           onDragEnd={handleDragEnd}
-          onDragOver={handleDoingDragOver}
+          onDragOver={handleDragOver}
           onDrop={() => console.log('doing on drop:', dragged)}
           onDragLeave={() => {
             console.log('doing drag leave')
@@ -180,7 +168,7 @@ const Main = () => {
           }
           onDrag={handleOnDrag}
           onDragEnd={handleDragEnd}
-          onDragOver={handleDoneDragOver}
+          onDragOver={handleDragOver}
           onDragLeave={() => {
             console.log('done drag leave')
             setIsDone(false)
