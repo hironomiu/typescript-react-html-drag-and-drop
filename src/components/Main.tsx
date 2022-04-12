@@ -4,9 +4,9 @@ import { CardType } from '../types'
 
 const Main = () => {
   const [todos, setTodos] = useState<CardType[] | []>(() => [
-    { id: 1, title: 'todo title1' },
-    { id: 2, title: 'todo title2' },
-    { id: 3, title: 'todo title3' },
+    { id: 1, title: 'todo title1', type: 1 },
+    { id: 2, title: 'todo title2', type: 1 },
+    { id: 3, title: 'todo title3', type: 1 },
   ])
   const [doings, setDoings] = useState<CardType[] | []>(() => [])
   const [dones, setDones] = useState<CardType[] | []>(() => [])
@@ -36,51 +36,65 @@ const Main = () => {
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
       console.log('todo drag end:', dragged)
 
-      const data = todos.filter((todo) => todo.id === dragged.id)
+      let card = todos.filter((todo) => todo.id === dragged.id)
+      console.log('card:', card)
+
       const newData = todos.filter((todo) => todo.id !== dragged.id)
       setTodos(newData)
       // todo -> doing
       if (dragged.target === 'doing') {
-        if (data) setDoings((_prev) => [..._prev, ...data])
+        card[0].type = 2
+
+        if (card) setDoings((_prev) => [..._prev, card[0]])
         setIsDoing(false)
       }
       // todo -> done
       if (dragged.target === 'done') {
-        if (data) setDones((_prev) => [..._prev, ...data])
+        card[0].type = 3
+
+        if (card) setDones((_prev) => [..._prev, ...card])
         setIsDone(false)
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
     } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
       console.log('doing drag end:', dragged)
 
-      const data = doings.filter((todo) => todo.id === dragged.id)
+      const card = doings.filter((todo) => todo.id === dragged.id)
+      console.log('card:', card)
       const newData = doings.filter((todo) => todo.id !== dragged.id)
       setDoings(newData)
       // doing -> done
       if (dragged.target === 'done') {
-        if (data) setDones((_prev) => [..._prev, ...data])
+        card[0].type = 3
+
+        if (card) setDones((_prev) => [..._prev, ...card])
         setIsDone(false)
       }
       // doing -> todo
       if (dragged.target === 'todo') {
-        if (data) setTodos((_prev) => [..._prev, ...data])
+        card[0].type = 1
+        if (card) setTodos((_prev) => [..._prev, ...card])
         setIsTodo(false)
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
     } else if (dragged.current === 'done' && dragged.target !== 'done') {
       console.log('done drag end:', dragged)
 
-      const data = dones.filter((todo) => todo.id === dragged.id)
+      const card = dones.filter((todo) => todo.id === dragged.id)
+      console.log('card:', card)
+
       const newData = dones.filter((todo) => todo.id !== dragged.id)
       setDones(newData)
       // done -> doing
       if (dragged.target === 'doing') {
-        if (data) setDoings((_prev) => [..._prev, ...data])
+        card[0].type = 2
+        if (card) setDoings((_prev) => [..._prev, ...card])
         setIsDoing(false)
       }
       // done -> todo
       if (dragged.target === 'todo') {
-        if (data) setTodos((_prev) => [..._prev, ...data])
+        card[0].type = 1
+        if (card) setTodos((_prev) => [..._prev, ...card])
         setIsTodo(false)
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
@@ -119,6 +133,9 @@ const Main = () => {
   const styleActive = 'bg-blue-500'
   const styleInactive = 'bg-blue-300'
 
+  const handleClick = () => {
+    setTodos([...todos, { id: 4, title: 'todo title4', type: 1 }])
+  }
   return (
     <>
       <div className="flex w-screen m-10">
@@ -179,6 +196,7 @@ const Main = () => {
         >
           <Cards title="Done" cards={dones} />
         </div>
+        <button onClick={handleClick}>Create</button>
       </div>
     </>
   )
