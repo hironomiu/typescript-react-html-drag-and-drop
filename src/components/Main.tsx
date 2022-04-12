@@ -34,26 +34,24 @@ const Main = () => {
     const card = todos.filter((todo) => todo.id === dragged.id)
     const newData = todos.filter((todo) => todo.id !== dragged.id)
     setTodos(newData)
+
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
+      // todo -> doing,todo -> done
       console.log('todo drag end:', dragged)
 
-      // todo -> doing
       if (dragged.target === 'doing') card[0].type = 2
-      // todo -> done
       if (dragged.target === 'done') card[0].type = 3
     } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
+      // doing -> done,doing -> todo
       console.log('doing drag end:', dragged)
 
-      // doing -> done
       if (dragged.target === 'done') card[0].type = 3
-      // doing -> todo
       if (dragged.target === 'todo') card[0].type = 1
     } else if (dragged.current === 'done' && dragged.target !== 'done') {
+      // done -> doing,done -> todo
       console.log('done drag end:', dragged)
 
-      // done -> doing
       if (dragged.target === 'doing') card[0].type = 2
-      // done -> todo
       if (dragged.target === 'todo') card[0].type = 1
     } else {
       console.log('drag end else!!!!!!!:', dragged)
@@ -68,22 +66,21 @@ const Main = () => {
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     // preventDefaultをすることでCardの動きがcurrentに戻る動作（戻ってからtargetに配置される）を防ぐ
     e.preventDefault()
+    // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
     const current = e.currentTarget.className.split(' ')[0]
     console.log('drag over:', current)
 
     if (current === 'todo') {
       setDragged((_prev) => ({ ..._prev, target: current }))
       setIsTodo(true)
-    }
-
-    if (current === 'doing') {
+    } else if (current === 'doing') {
       setDragged((_prev) => ({ ..._prev, target: current }))
       setIsDoing(true)
-    }
-
-    if (current === 'done') {
+    } else if (current === 'done') {
       setDragged((_prev) => ({ ..._prev, target: current }))
       setIsDone(true)
+    } else {
+      console.log('drag over error!!:', current)
     }
   }
 
