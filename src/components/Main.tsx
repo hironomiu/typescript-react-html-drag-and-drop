@@ -1,22 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Cards from './Cards'
-import { Todo, Dragged } from '../types'
+import { useMain } from '../hooks/useMain'
 
 const Main = () => {
-  const [todos, setTodos] = useState<Todo[] | []>(() => [
-    { id: 1, title: 'todo title1', type: 1 },
-    { id: 2, title: 'todo title2', type: 1 },
-    { id: 3, title: 'todo title3', type: 1 },
-  ])
-  const [dragged, setDragged] = useState<Dragged>({
-    id: 0,
-    current: 'todo',
-    target: 'todo',
-  })
-
-  const [isTodo, setIsTodo] = useState<boolean>(false)
-  const [isDoing, setIsDoing] = useState<boolean>(false)
-  const [isDone, setIsDone] = useState<boolean>(false)
+  const {
+    todos,
+    setTodos,
+    dragged,
+    setDragged,
+    isTodo,
+    setIsTodo,
+    isDoing,
+    setIsDoing,
+    isDone,
+    setIsDone,
+  } = useMain()
 
   const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
     console.log('on drag:', e.currentTarget.className.split(' ')[0])
@@ -96,6 +94,7 @@ const Main = () => {
   const handleClick = () => {
     setTodos([...todos, { id: 4, title: 'todo title4', type: 1 }])
   }
+
   return (
     <>
       <div className="flex w-screen m-10">
