@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import Cards from './Cards'
 import { CardType } from '../types'
 
@@ -43,9 +43,10 @@ const Main = () => {
         current: 'done',
       }))
   }
-  const handleTodoOnDragEnd = () => {
-    console.log('todo drag end:', dragged)
+  const handleDragEnd = () => {
     if (dragged.current === 'todo' && dragged.target !== 'todo') {
+      console.log('todo drag end:', dragged)
+
       const data = todos.filter((todo) => todo.id === dragged.id)
       const newData = todos.filter((todo) => todo.id !== dragged.id)
       setTodos(newData)
@@ -60,15 +61,9 @@ const Main = () => {
         setIsDone(false)
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
-    } else {
-      console.log('todo drag end else!!!!!!!:', dragged)
-      setIsTodo(false)
-    }
-  }
+    } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
+      console.log('doing drag end:', dragged)
 
-  const handleDoingOnDragEnd = () => {
-    console.log('doing drag end:', dragged)
-    if (dragged.current === 'doing' && dragged.target !== 'doing') {
       const data = doings.filter((todo) => todo.id === dragged.id)
       const newData = doings.filter((todo) => todo.id !== dragged.id)
       setDoings(newData)
@@ -83,15 +78,9 @@ const Main = () => {
         setIsTodo(false)
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
-    } else {
-      console.log('doing drag end else!!!!!!!:', dragged)
-      setIsDoing(false)
-    }
-  }
+    } else if (dragged.current === 'done' && dragged.target !== 'done') {
+      console.log('done drag end:', dragged)
 
-  const handleDoneDragEnd = () => {
-    console.log('done drag end:', dragged)
-    if (dragged.current === 'done' && dragged.target !== 'done') {
       const data = dones.filter((todo) => todo.id === dragged.id)
       const newData = dones.filter((todo) => todo.id !== dragged.id)
       setDones(newData)
@@ -107,9 +96,32 @@ const Main = () => {
       }
       setDragged({ id: 0, current: 'todo', target: 'todo' })
     } else {
-      console.log('done drag end else!!!!!!!:', dragged)
+      console.log('drag end else!!!!!!!:', dragged)
+      setIsTodo(false)
+      setIsDoing(false)
       setIsDone(false)
     }
+  }
+
+  const handleTodoDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    console.log('todo drag over')
+    setDragged((_prev) => ({ ..._prev, target: 'todo' }))
+    setIsTodo(true)
+  }
+
+  const handleDoingDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    console.log('doing drag over')
+    setDragged((_prev) => ({ ..._prev, target: 'doing' }))
+    setIsDoing(true)
+  }
+
+  const handleDoneDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    console.log('done drag over')
+    setDragged((_prev) => ({ ..._prev, target: 'done' }))
+    setIsDone(true)
   }
 
   const styleMain =
@@ -129,13 +141,8 @@ const Main = () => {
           }
           onDrag={handleOnDrag}
           onDragStart={() => console.log('todo drag start')}
-          onDragEnd={handleTodoOnDragEnd}
-          onDragOver={(e) => {
-            e.preventDefault()
-            console.log('todo drag over')
-            setDragged((_prev) => ({ ..._prev, target: 'todo' }))
-            setIsTodo(true)
-          }}
+          onDragEnd={handleDragEnd}
+          onDragOver={handleTodoDragOver}
           onDrop={() => console.log('todo on drop')}
           onDragLeave={() => {
             console.log('todo drag leave')
@@ -153,13 +160,8 @@ const Main = () => {
               : `doing ${styleMain} ${styleInactive}`
           }
           onDrag={handleOnDrag}
-          onDragEnd={handleDoingOnDragEnd}
-          onDragOver={(e) => {
-            e.preventDefault()
-            console.log('doing drag over')
-            setDragged((_prev) => ({ ..._prev, target: 'doing' }))
-            setIsDoing(true)
-          }}
+          onDragEnd={handleDragEnd}
+          onDragOver={handleDoingDragOver}
           onDrop={() => console.log('doing on drop:', dragged)}
           onDragLeave={() => {
             console.log('doing drag leave')
@@ -177,13 +179,8 @@ const Main = () => {
               : `done ${styleMain} ${styleInactive}`
           }
           onDrag={handleOnDrag}
-          onDragEnd={handleDoneDragEnd}
-          onDragOver={(e) => {
-            e.preventDefault()
-            console.log('done drag over')
-            setDragged((_prev) => ({ ..._prev, target: 'done' }))
-            setIsDone(true)
-          }}
+          onDragEnd={handleDragEnd}
+          onDragOver={handleDoneDragOver}
           onDragLeave={() => {
             console.log('done drag leave')
             setIsDone(false)
