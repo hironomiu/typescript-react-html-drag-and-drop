@@ -11,3 +11,5 @@ export type Dragged = {
   current: Board
   target: Board
 }
+
+export type BoardType = { id: number; title: string; isActive: boolean }
