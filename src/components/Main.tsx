@@ -159,7 +159,7 @@ const Main = () => {
           <Cards title="Done" cards={todos.filter((todo) => todo.type === 3)} />
         </div>
         <button
-          className=" border-0 h-12 w-64 rounded-xl bg-purple-300 hover:bg-purple-600"
+          className=" border-0 h-12 w-64 rounded-xl bg-pink-200 hover:bg-pink-400"
           onClick={handleClick}
         >
           Card Create
