@@ -87,7 +87,7 @@ const Main = () => {
   }
 
   const styleMain =
-    'w-[20vw] h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
+    'w-72 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
   const styleActive = 'bg-blue-500'
   const styleInactive = 'bg-blue-300'
 
@@ -97,7 +97,7 @@ const Main = () => {
 
   return (
     <>
-      <div className="flex w-screen m-10">
+      <div className="flex h-[90vh] w-screen m-10">
         {/* ------------------------------------------------------ */}
         <div
           className={
@@ -159,10 +159,10 @@ const Main = () => {
           <Cards title="Done" cards={todos.filter((todo) => todo.type === 3)} />
         </div>
         <button
-          className=" border-2 h-12 w-20 rounded-xl"
+          className=" border-0 h-12 w-64 rounded-xl bg-purple-300 hover:bg-purple-600"
           onClick={handleClick}
         >
-          Create
+          Card Create
         </button>
       </div>
     </>
