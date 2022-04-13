@@ -96,8 +96,8 @@ const Main = () => {
   }
 
   return (
-    <>
-      <div className="flex h-[90vh] w-screen m-10">
+    <div className="flex  w-scree">
+      <div className="flex m-10">
         {/* ------------------------------------------------------ */}
         <div
           className={
@@ -165,7 +165,7 @@ const Main = () => {
           Card Create
         </button>
       </div>
-    </>
+    </div>
   )
 }
 
