@@ -43,7 +43,7 @@ const Board = ({
   handleOnDrag: (e: React.DragEvent<HTMLDivElement>) => void
   handleDragEnd: () => void
   handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void
-  handleOnLeave: () => void
+  handleOnLeave: (e: React.DragEvent<HTMLDivElement>) => void
 }) => {
   const styleMain =
     'w-72 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'

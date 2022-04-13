@@ -85,9 +85,9 @@ const Main = () => {
       const newBoards = boards.filter(
         (board: BoardType) => board.title !== current
       )
-      console.log(newBoards, board)
+      // console.log(newBoards, board)
       // setBoards((_prev) => [...newBoards, board])
-      console.log(boards)
+      // console.log(boards)
     }
     // TODO: switch & never で縛る
     if (current === 'todo') {
@@ -101,9 +101,15 @@ const Main = () => {
     }
   }
 
-  const handleOnLeave = () => {
-    console.log(`drag leave`)
-    setIsTodo(false)
+  const handleOnLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log(`${e.currentTarget.className.split(' ')[0]} drag leave`)
+    if (e.currentTarget.className.split(' ')[0] === 'todo') {
+      setIsTodo(false)
+    } else if (e.currentTarget.className.split(' ')[0] === 'doing') {
+      setIsDoing(false)
+    } else if (e.currentTarget.className.split(' ')[0] === 'done') {
+      setIsDone(false)
+    }
   }
 
   const handleClick = () => {
