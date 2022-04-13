@@ -116,7 +116,7 @@ const Main = () => {
           }}
           onDragEnter={() => console.log('todo drag enter')}
         >
-          <Cards title="Todo" cards={todos.filter((todo) => todo.type === 1)} />
+          <Cards title="ToDo" cards={todos.filter((todo) => todo.type === 1)} />
         </div>
         {/* ------------------------------------------------------ */}
         <div

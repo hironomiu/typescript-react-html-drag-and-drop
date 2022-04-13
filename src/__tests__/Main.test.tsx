@@ -4,7 +4,7 @@ import Main from '../components/Main'
 describe('Main', () => {
   it('Main', () => {
     render(<Main />)
-    expect(screen.getByText(/Todo/)).toBeInTheDocument()
+    expect(screen.getByText(/ToDo/)).toBeInTheDocument()
     expect(screen.getByText(/Doing/)).toBeInTheDocument()
     expect(screen.getByText(/Done/)).toBeInTheDocument()
   })
