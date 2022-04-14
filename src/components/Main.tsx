@@ -1,6 +1,6 @@
 import { useMain } from '../hooks/useMain'
 import Board from './Board'
-import { BoardType } from '../types'
+import { BoardType, Todo } from '../types'
 const Main = () => {
   const {
     todos,
@@ -30,24 +30,57 @@ const Main = () => {
   }
 
   const handleDragEnd = () => {
-    const card = todos.filter((todo) => todo.id === dragged.id)
-    const newData = todos.filter((todo) => todo.id !== dragged.id)
-    setTodos(newData)
-
     if (dragged.current !== dragged.target) {
       console.log('drag end:', dragged.current, dragged.target)
+
+      const card = todos.find((todo) => todo.id === dragged.id)
       const board = boards.find((board) => board.title === dragged.target)
-      if (board) card[0].boardId = board.id
+
+      card!.boardId = board!.id
+      setTodos((_prev) => _prev.filter((prev) => prev.id !== card!.id))
+      setTodos((_prev) => [..._prev, card!])
+      console.log('todo:', todos)
+
+      // // TODO: 命名
+      sortingData()
     } else {
       console.log('drag end else!!!!!!!:', dragged)
     }
-    setTodos((_prev) => [..._prev, card[0]])
+    // TODO: 命名
+    reset()
+  }
+
+  const sortingData = () => {
+    // let resultTodos: Todo[] = []
+    // boards.forEach((board) => {
+    //   console.log('beforeTodos', todos)
+    // const newTodos = todos.filter((todo) => todo.boardId === board.id)
+    // console.log(`${board.title} newTodos `, newTodos)
+
+    // const sorttedTodos: Todo[] = newTodos.map((todo: Todo, index) => ({
+    //   ...todo,
+    //   orderId: index + 1,
+    // }))
+    // console.log(`${board.title} sorttedTodos `, sorttedTodos)
+    // resultTodos = [...resultTodos, ...sorttedTodos]
+
+    // })
+
+    let resultTodos: Todo[] = todos.map((todo, index) => ({
+      ...todo,
+      orderId: index + 1,
+    }))
+    console.log('result:', resultTodos)
+    setTodos((_prev) => (_prev = resultTodos))
+    console.log('todos:', todos)
+  }
+  const reset = () => {
     setDragged({ id: 0, current: 'todo', target: 'todo' })
+
     setIsTodo(false)
     setIsDoing(false)
     setIsDone(false)
   }
-
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     // preventDefaultをすることでCardの動きがcurrentに戻る動作（戻ってからtargetに配置される）を防ぐ
     e.preventDefault()
@@ -109,8 +142,8 @@ const Main = () => {
       ...todos,
       {
         id: maxId + 1,
-        title: `todo title${maxId + 1}`,
-        body: `todo body${maxId + 1}`,
+        title: `task title${maxId + 1}`,
+        body: `task body${maxId + 1}`,
         boardId: 1,
         orderId: maxOrderId + 1,
       },
