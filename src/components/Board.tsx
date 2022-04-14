@@ -69,7 +69,7 @@ const Board = ({
     >
       <Cards
         title={board.title}
-        cards={todos.filter((todo: Todo) => todo.type === board.id)}
+        cards={todos.filter((todo: Todo) => todo.boardId === board.id)}
       />
     </div>
   )

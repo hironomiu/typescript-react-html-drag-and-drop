@@ -1,7 +1,8 @@
 export type Todo = {
   id: number
   title: string
-  type: number
+  boardId: number
+  orderId: number
 }
 
 export type Board = 'todo' | 'doing' | 'done'

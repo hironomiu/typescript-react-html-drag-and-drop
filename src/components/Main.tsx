@@ -41,20 +41,20 @@ const Main = () => {
       // todo -> doing or done
       console.log('todo drag end:', dragged)
 
-      if (dragged.target === 'doing') card[0].type = 2
-      if (dragged.target === 'done') card[0].type = 3
+      if (dragged.target === 'doing') card[0].boardId = 2
+      if (dragged.target === 'done') card[0].boardId = 3
     } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
       // doing -> done or todo
       console.log('doing drag end:', dragged)
 
-      if (dragged.target === 'done') card[0].type = 3
-      if (dragged.target === 'todo') card[0].type = 1
+      if (dragged.target === 'done') card[0].boardId = 3
+      if (dragged.target === 'todo') card[0].boardId = 1
     } else if (dragged.current === 'done' && dragged.target !== 'done') {
       // done -> doing or todo
       console.log('done drag end:', dragged)
 
-      if (dragged.target === 'doing') card[0].type = 2
-      if (dragged.target === 'todo') card[0].type = 1
+      if (dragged.target === 'doing') card[0].boardId = 2
+      if (dragged.target === 'todo') card[0].boardId = 1
     } else {
       console.log('drag end else!!!!!!!:', dragged)
     }
@@ -70,7 +70,7 @@ const Main = () => {
     e.preventDefault()
     // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
     const current = e.currentTarget.className.split(' ')[0]
-    console.log('drag over:', current)
+    console.log('drag over:', current, e.screenX, e.screenY)
 
     if (current === 'todo' || current === 'doing' || current === 'done') {
       setDragged((_prev) => ({ ..._prev, target: current }))
@@ -113,7 +113,22 @@ const Main = () => {
   }
 
   const handleClick = () => {
-    setTodos([...todos, { id: 4, title: 'todo title4', type: 1 }])
+    // APIから取得するまでArray内のidの最大値を取得し+1しセット
+    // TODO: 将来的にはtodoの箇所をtodoをカラムとしidで引けるようにする
+    const maxId = Math.max(...todos.map((todo) => todo.id)) | 0
+    const maxOrderId =
+      Math.max(
+        ...todos.filter((todo) => todo.id === 1).map((todo) => todo.orderId)
+      ) | 0
+    setTodos([
+      ...todos,
+      {
+        id: maxId + 1,
+        title: `todo title${maxId + 1}`,
+        boardId: 1,
+        orderId: maxOrderId + 1,
+      },
+    ])
   }
 
   return (
