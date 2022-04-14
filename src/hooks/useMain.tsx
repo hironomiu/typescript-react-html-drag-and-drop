@@ -3,9 +3,9 @@ import { Todo, Dragged, BoardType } from '../types'
 
 export const useMain = () => {
   const [todos, setTodos] = useState<Todo[] | []>(() => [
-    { id: 1, title: 'task title1', boardId: 1, orderId: 1 },
-    { id: 2, title: 'task title2', boardId: 1, orderId: 2 },
-    { id: 3, title: 'task title3', boardId: 1, orderId: 3 },
+    { id: 1, title: 'task title1', body: 'task body1', boardId: 1, orderId: 1 },
+    { id: 2, title: 'task title2', body: 'task body2', boardId: 1, orderId: 2 },
+    { id: 3, title: 'task title3', body: 'task body3', boardId: 1, orderId: 3 },
   ])
   const [dragged, setDragged] = useState<Dragged>({
     id: 0,

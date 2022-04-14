@@ -1,5 +1,4 @@
 import { useMain } from '../hooks/useMain'
-// import Cards from './Cards'
 import Board from './Board'
 import { BoardType } from '../types'
 const Main = () => {
@@ -22,8 +21,7 @@ const Main = () => {
     console.log('on drag:', e.currentTarget.className.split(' ')[0])
     // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
     const current = e.currentTarget.className.split(' ')[0]
-
-    if (current === 'todo' || current === 'doing' || current === 'done')
+    if (boards.some((board: BoardType) => board.title === current))
       setDragged((_prev) => ({
         ..._prev,
         id: Number((e.target as HTMLDivElement).id),
@@ -36,25 +34,10 @@ const Main = () => {
     const newData = todos.filter((todo) => todo.id !== dragged.id)
     setTodos(newData)
 
-    // TODO: switch & never で縛る
-    if (dragged.current === 'todo' && dragged.target !== 'todo') {
-      // todo -> doing or done
-      console.log('todo drag end:', dragged)
-
-      if (dragged.target === 'doing') card[0].boardId = 2
-      if (dragged.target === 'done') card[0].boardId = 3
-    } else if (dragged.current === 'doing' && dragged.target !== 'doing') {
-      // doing -> done or todo
-      console.log('doing drag end:', dragged)
-
-      if (dragged.target === 'done') card[0].boardId = 3
-      if (dragged.target === 'todo') card[0].boardId = 1
-    } else if (dragged.current === 'done' && dragged.target !== 'done') {
-      // done -> doing or todo
-      console.log('done drag end:', dragged)
-
-      if (dragged.target === 'doing') card[0].boardId = 2
-      if (dragged.target === 'todo') card[0].boardId = 1
+    if (dragged.current !== dragged.target) {
+      console.log('drag end:', dragged.current, dragged.target)
+      const board = boards.find((board) => board.title === dragged.target)
+      if (board) card[0].boardId = board.id
     } else {
       console.log('drag end else!!!!!!!:', dragged)
     }
@@ -118,13 +101,16 @@ const Main = () => {
     const maxId = Math.max(...todos.map((todo) => todo.id)) | 0
     const maxOrderId =
       Math.max(
-        ...todos.filter((todo) => todo.id === 1).map((todo) => todo.orderId)
+        ...todos
+          .filter((todo) => todo.boardId === 1)
+          .map((todo) => todo.orderId)
       ) | 0
     setTodos([
       ...todos,
       {
         id: maxId + 1,
         title: `todo title${maxId + 1}`,
+        body: `todo body${maxId + 1}`,
         boardId: 1,
         orderId: maxOrderId + 1,
       },
