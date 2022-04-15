@@ -182,6 +182,7 @@ const Main = () => {
           <button
             className=" border-0 h-12 w-56 rounded-xl bg-pink-200 hover:bg-pink-400"
             onClick={handleClick}
+            data-testid="card-create-button"
           >
             Card Create
           </button>

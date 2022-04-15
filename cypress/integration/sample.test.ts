@@ -1,3 +1,4 @@
+// cli用（ワーニングは一旦無視）
 import { cli } from 'cypress'
 
 describe('Cypress', () => {
