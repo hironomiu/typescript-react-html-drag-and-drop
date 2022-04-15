@@ -33,10 +33,14 @@ const Main = () => {
     if (dragged.current !== dragged.target) {
       console.log('drag end:', dragged.current, dragged.target)
 
-      const card = todos.find((todo) => todo.id === dragged.id)
-      const board = boards.find((board) => board.title === dragged.target)
+      // type assertion
+      const card = todos.find((todo) => todo.id === dragged.id) as Todo
+      const board = boards.find(
+        (board) => board.title === dragged.target
+      ) as BoardType
 
-      card!.boardId = board!.id
+      // card!.boardId = board!.id (non-null assertion operator)
+      card.boardId = board.id
       setTodos((_prev) => _prev.filter((prev) => prev.id !== card!.id))
       setTodos((_prev) => [..._prev, card!])
       console.log('todo:', todos)
@@ -98,9 +102,9 @@ const Main = () => {
         (board: BoardType) => board.title === current
       )[0]
       board.isActive = true
-      const newBoards = boards.filter(
-        (board: BoardType) => board.title !== current
-      )
+      // const newBoards = boards.filter(
+      //   (board: BoardType) => board.title !== current
+      // )
       // console.log(newBoards, board)
       // setBoards((_prev) => [...newBoards, board])
       // console.log(boards)
