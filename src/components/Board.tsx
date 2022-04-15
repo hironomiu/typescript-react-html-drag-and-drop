@@ -46,7 +46,7 @@ const Board = ({
   handleOnLeave: (e: React.DragEvent<HTMLDivElement>) => void
 }) => {
   const styleMain =
-    'w-72 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
+    'w-64 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
   const styleActive = 'bg-blue-500'
   const styleInactive = 'bg-blue-300'
 

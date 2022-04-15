@@ -152,7 +152,7 @@ const Main = () => {
 
   return (
     <div className="flex  w-scree">
-      <div className="flex m-10">
+      <div className="flex m-8">
         {boards.map((board) => (
           <Board
             key={board.id}
@@ -174,12 +174,14 @@ const Main = () => {
             handleOnLeave={handleOnLeave}
           />
         ))}
-        <button
-          className=" border-0 h-12 w-64 rounded-xl bg-pink-200 hover:bg-pink-400"
-          onClick={handleClick}
-        >
-          Card Create
-        </button>
+        <div>
+          <button
+            className=" border-0 h-12 w-56 rounded-xl bg-pink-200 hover:bg-pink-400"
+            onClick={handleClick}
+          >
+            Card Create
+          </button>
+        </div>
       </div>
     </div>
   )
