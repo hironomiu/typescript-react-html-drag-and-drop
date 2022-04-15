@@ -41,12 +41,26 @@ const Main = () => {
 
       // card!.boardId = board!.id (non-null assertion operator)
       card.boardId = board.id
-      setTodos((_prev) => _prev.filter((prev) => prev.id !== card!.id))
-      setTodos((_prev) => [..._prev, card!])
-      console.log('todo:', todos)
+      setTodos((_prev) => _prev.filter((prev) => prev.id !== card.id))
+      // setTodos(
+      //   (_prev) =>
+      //     (_prev = [
+      //       {
+      //         id: 100,
+      //         title: 'task title100',
+      //         body: 'task body100',
+      //         boardId: 1,
+      //         orderId: 1,
+      //       },
+      //     ])
+      // )
+      console.log('todoA:', todos)
+
+      setTodos((_prev) => (_prev = [..._prev, card!]))
+      console.log('todoB:', todos)
 
       // // TODO: 命名
-      sortingData()
+      // sortingData()
     } else {
       console.log('drag end else!!!!!!!:', dragged)
     }
@@ -55,27 +69,19 @@ const Main = () => {
   }
 
   const sortingData = () => {
-    // let resultTodos: Todo[] = []
-    // boards.forEach((board) => {
-    //   console.log('beforeTodos', todos)
-    // const newTodos = todos.filter((todo) => todo.boardId === board.id)
-    // console.log(`${board.title} newTodos `, newTodos)
+    let resultTodos: Todo[] = []
 
-    // const sorttedTodos: Todo[] = newTodos.map((todo: Todo, index) => ({
-    //   ...todo,
-    //   orderId: index + 1,
-    // }))
-    // console.log(`${board.title} sorttedTodos `, sorttedTodos)
-    // resultTodos = [...resultTodos, ...sorttedTodos]
+    boards.forEach((board) => {
+      const newTodos = todos.filter((todo) => todo.boardId === board.id)
+      const sorttedTodos: Todo[] = newTodos.map((todo: Todo, index) => ({
+        ...todo,
+        orderId: index + 1,
+      }))
+      resultTodos = [...resultTodos, ...sorttedTodos]
+    })
 
-    // })
-
-    let resultTodos: Todo[] = todos.map((todo, index) => ({
-      ...todo,
-      orderId: index + 1,
-    }))
     console.log('result:', resultTodos)
-    setTodos((_prev) => (_prev = resultTodos))
+    // setTodos((_prev) => (_prev = resultTodos))
     console.log('todos:', todos)
   }
   const reset = () => {

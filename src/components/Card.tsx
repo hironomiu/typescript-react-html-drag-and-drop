@@ -1,6 +1,8 @@
 import { Todo } from '../types'
 
-const Card = ({ card }: { card: Todo }) => {
+type Props = { card: Todo }
+
+const Card = ({ card }: Props) => {
   return (
     <div
       id={card.id.toString()}
