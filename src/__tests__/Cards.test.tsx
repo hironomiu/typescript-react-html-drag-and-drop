@@ -12,8 +12,9 @@ describe('Cards', () => {
     },
   ]
   it('Cards', () => {
-    render(<Cards title="dummy card title" cards={cards} />)
-    expect(screen.getByText('dummy card title')).toBeInTheDocument()
+    const setDragOverCard = jest.fn()
+    render(<Cards cards={cards} setDragOverCard={setDragOverCard} />)
+
     expect(screen.getByText('dummy title 1')).toBeInTheDocument()
   })
 })

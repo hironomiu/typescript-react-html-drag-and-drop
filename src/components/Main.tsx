@@ -1,15 +1,26 @@
-import { useMain } from '../hooks/useMain'
+import { useState } from 'react'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
 import { selectTodos, addTodo } from '../features/todo/todoSlice'
+import { Dragged } from '../types'
 
 const Main = () => {
   const dispatch = useDispatch()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
+
   // TODO: グローバルで持つか？
-  const { dragged, setDragged } = useMain()
+  const [dragged, setDragged] = useState<Dragged>({
+    id: 0,
+    current: 'todo',
+    target: 'todo',
+  })
+  // TODO: グローバルで持つか？
+  // TODO: カード同士の入れかで使う
+  const [dragOverCard, setDragOverCard] = useState<{ cardId: number }>({
+    cardId: 0,
+  })
 
   const handleClick = () => {
     // APIから取得するまでArray内のidの最大値を取得し+1しセット
@@ -42,17 +53,19 @@ const Main = () => {
             board={board}
             dragged={dragged}
             setDragged={setDragged}
+            dragOverCard={dragOverCard}
+            setDragOverCard={setDragOverCard}
           />
         ))}
-        <div>
-          <button
-            className=" border-0 h-12 w-56 rounded-xl bg-pink-200 hover:bg-pink-400"
-            onClick={handleClick}
-            data-testid="card-create-button"
-          >
-            Card Create
-          </button>
-        </div>
+      </div>
+      <div className="flex m-8">
+        <button
+          className=" border-0 h-12 w-56 rounded-xl bg-pink-200 hover:bg-pink-400"
+          onClick={handleClick}
+          data-testid="card-create-button"
+        >
+          Card Create
+        </button>
       </div>
     </div>
   )

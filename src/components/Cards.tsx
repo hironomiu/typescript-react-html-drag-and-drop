@@ -1,16 +1,22 @@
 import Card from './Card'
 import { Todo } from '../types'
 
-type Props = { title: string; cards: Todo[] }
+type Props = {
+  cards: Todo[]
+  setDragOverCard: React.Dispatch<
+    React.SetStateAction<{
+      cardId: number
+    }>
+  >
+}
 
-const Cards = ({ title, cards }: Props) => {
+const Cards = ({ cards, setDragOverCard }: Props) => {
   return (
-    <div className="my-4 flex flex-col items-center">
-      <span className="font-bold mb-4">{title}</span>
+    <>
       {cards.map((card: Todo) => (
-        <Card key={card.id} card={card} />
+        <Card key={card.id} card={card} setDragOverCard={setDragOverCard} />
       ))}
-    </div>
+    </>
   )
 }
 

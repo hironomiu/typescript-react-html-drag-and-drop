@@ -2,7 +2,11 @@ import React from 'react'
 import Cards from './Cards'
 import { Todo } from '../types'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectTodos, setTodoBoardId } from '../features/todo/todoSlice'
+import {
+  selectTodos,
+  setTodoBoardId,
+  swapTodo,
+} from '../features/todo/todoSlice'
 import {
   selectBoards,
   setAllBoardIsActiveFlase,
@@ -14,9 +18,17 @@ type Props = {
   board: BoardType
   dragged: Dragged
   setDragged: React.Dispatch<React.SetStateAction<Dragged>>
+  dragOverCard: { cardId: number }
+  setDragOverCard: React.Dispatch<React.SetStateAction<{ cardId: number }>>
 }
 
-const Board = ({ board, dragged, setDragged }: Props) => {
+const Board = ({
+  board,
+  dragged,
+  dragOverCard,
+  setDragOverCard,
+  setDragged,
+}: Props) => {
   const dispatch = useDispatch()
   const todos = useSelector(selectTodos)
   const boards = useSelector(selectBoards)
@@ -46,7 +58,14 @@ const Board = ({ board, dragged, setDragged }: Props) => {
       dispatch(setTodoBoardId({ id: board.id, dragged, boards: boards }))
     } else {
       // TODO: board内の要素の入れ替えをここに実装する
-      console.log('drag end else!!!!!!!:', dragged)
+      console.log('drag end else!!!!!!!:', dragged, dragOverCard)
+      dispatch(
+        swapTodo({
+          id: dragged.id,
+          dradragOverCardId: dragOverCard.cardId,
+          boards: boards,
+        })
+      )
     }
     setDragged({ id: 0, current: 'todo', target: 'todo' })
     dispatch(setAllBoardIsActiveFlase())
@@ -96,10 +115,15 @@ const Board = ({ board, dragged, setDragged }: Props) => {
       onDragLeave={handleOnLeave}
       // onDragEnter={() => console.log(`${board.title} drag enter`)}
     >
-      <Cards
-        title={board.title}
-        cards={todos.filter((todo: Todo) => todo.boardId === board.id)}
-      />
+      <div className="my-4 flex flex-col items-center">
+        <span className="font-bold mb-4 text-2xl text-black">
+          {board.title}
+        </span>
+        <Cards
+          cards={todos.filter((todo: Todo) => todo.boardId === board.id)}
+          setDragOverCard={setDragOverCard}
+        />
+      </div>
     </div>
   )
 }

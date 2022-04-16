@@ -3,6 +3,7 @@ import Card from '../components/Card'
 
 describe('Card', () => {
   it('Card', () => {
+    const setDragOverCard = jest.fn()
     render(
       <Card
         card={{
@@ -12,6 +13,7 @@ describe('Card', () => {
           boardId: 1,
           orderId: 1,
         }}
+        setDragOverCard={setDragOverCard}
       />
     )
     expect(screen.getByText('dummy title')).toBeInTheDocument()

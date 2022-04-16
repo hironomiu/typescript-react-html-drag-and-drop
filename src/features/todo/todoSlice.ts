@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
-import { useSelector } from 'react-redux'
 
 type InitialState = {
   todos: Todo[]
@@ -38,6 +37,7 @@ export const todoSlice = createSlice({
       newTodos.push(card)
 
       // ソート処理
+      // TODO: 下に抜き出す
       // TODO: 型
       const resultTodos: any = [] as Todo[]
 
@@ -58,14 +58,63 @@ export const todoSlice = createSlice({
 
       state.todos = [...resultTodos]
     },
+    // TODO: 上のソートを抜き出す
+    sortTodos: (state, action) => {},
     // TODO: 将来的にはAPI叩くのでThunkで実装する
     addTodo: (state, action) => {
       console.log(action.payload)
       state.todos.push(action.payload)
     },
+    swapTodo: (state, action) => {
+      if (action.payload.dradragOverCardId > 0) {
+        const target = {
+          ...state.todos.find((todo) => todo.id === action.payload.id),
+        } as Todo
+        const dradragOverCard = {
+          ...state.todos.find(
+            (todo) => todo.id === action.payload.dradragOverCardId
+          ),
+        } as Todo
+        const newTodos = [
+          ...state.todos.filter((todo) => todo.id !== action.payload.id),
+        ]
+        const index = newTodos.findIndex(
+          (todo) => todo.id === action.payload.dradragOverCardId
+        )
+        if (target.orderId < dradragOverCard.orderId) {
+          console.log('big')
+          newTodos.splice(index + 1, 0, target)
+        } else {
+          newTodos.splice(index, 0, target)
+        }
+
+        console.log('swapTodo:', target, action.payload, index)
+        // ソート処理
+        // TODO: 下に抜き出す
+        // TODO: 型
+        const resultTodos: any = [] as Todo[]
+
+        action.payload.boards.forEach((board: BoardType) => {
+          const newNewTodos = [
+            ...newTodos.filter((todo) => todo.boardId === board.id),
+          ]
+          const sortedTodos: Todo[] = [
+            ...(newNewTodos.map((todo, index) => {
+              todo.orderId = index + 1
+              return { ...todo }
+            }) as Todo[]),
+          ]
+          console.log('sortedTodos:', sortedTodos)
+          resultTodos.push(...sortedTodos)
+        })
+        console.log('resultTodos:', resultTodos)
+
+        state.todos = [...resultTodos]
+      }
+    },
   },
 })
 
 export const selectTodos = (state: RootState) => state.todo.todos
-export const { setTodos, setTodoBoardId, addTodo } = todoSlice.actions
+export const { setTodos, setTodoBoardId, addTodo, swapTodo } = todoSlice.actions
 export default todoSlice.reducer
