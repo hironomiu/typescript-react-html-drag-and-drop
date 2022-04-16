@@ -1,25 +1,27 @@
 import { useMain } from '../hooks/useMain'
 import Board from './Board'
-import { BoardType, Todo } from '../types'
+import { BoardType } from '../types'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  selectBoards,
+  setBoardIsActive,
+  setAllBoardIsActiveFlase,
+} from '../features/board/board.Slice'
+import {
+  selectTodos,
+  setTodoBoardId,
+  addTodo,
+} from '../features/todo/todoSlice'
+
 const Main = () => {
-  const {
-    todos,
-    setTodos,
-    dragged,
-    setDragged,
-    isTodo,
-    setIsTodo,
-    isDoing,
-    setIsDoing,
-    isDone,
-    setIsDone,
-    boards,
-    setBoards,
-  } = useMain()
+  const dispatch = useDispatch()
+  const boards = useSelector(selectBoards)
+  const todos = useSelector(selectTodos)
+  const { dragged, setDragged } = useMain()
 
   const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
     console.log('on drag:', e.currentTarget.className.split(' ')[0])
-    // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
+    // TODO: currentをboards.titleにユニオン型で縛る（現状はstring）
     const current = e.currentTarget.className.split(' ')[0]
     if (boards.some((board: BoardType) => board.title === current))
       setDragged((_prev) => ({
@@ -32,65 +34,18 @@ const Main = () => {
   const handleDragEnd = () => {
     if (dragged.current !== dragged.target) {
       console.log('drag end:', dragged.current, dragged.target)
-
-      // type assertion
-      const card = todos.find((todo) => todo.id === dragged.id) as Todo
       const board = boards.find(
         (board) => board.title === dragged.target
       ) as BoardType
-
-      // card!.boardId = board!.id (non-null assertion operator)
-      card.boardId = board.id
-      setTodos((_prev) => _prev.filter((prev) => prev.id !== card.id))
-      // setTodos(
-      //   (_prev) =>
-      //     (_prev = [
-      //       {
-      //         id: 100,
-      //         title: 'task title100',
-      //         body: 'task body100',
-      //         boardId: 1,
-      //         orderId: 1,
-      //       },
-      //     ])
-      // )
-      console.log('todoA:', todos)
-
-      setTodos((_prev) => (_prev = [..._prev, card!]))
-      console.log('todoB:', todos)
-
-      // // TODO: 命名
-      // sortingData()
+      dispatch(setTodoBoardId({ id: board.id, dragged }))
     } else {
+      // TODO: board内の要素の入れ替えをここに実装する
       console.log('drag end else!!!!!!!:', dragged)
     }
-    // TODO: 命名
-    reset()
-  }
-
-  const sortingData = () => {
-    let resultTodos: Todo[] = []
-
-    boards.forEach((board) => {
-      const newTodos = todos.filter((todo) => todo.boardId === board.id)
-      const sorttedTodos: Todo[] = newTodos.map((todo: Todo, index) => ({
-        ...todo,
-        orderId: index + 1,
-      }))
-      resultTodos = [...resultTodos, ...sorttedTodos]
-    })
-
-    console.log('result:', resultTodos)
-    // setTodos((_prev) => (_prev = resultTodos))
-    console.log('todos:', todos)
-  }
-  const reset = () => {
     setDragged({ id: 0, current: 'todo', target: 'todo' })
-
-    setIsTodo(false)
-    setIsDoing(false)
-    setIsDone(false)
+    dispatch(setAllBoardIsActiveFlase())
   }
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     // preventDefaultをすることでCardの動きがcurrentに戻る動作（戻ってからtargetに配置される）を防ぐ
     e.preventDefault()
@@ -98,44 +53,26 @@ const Main = () => {
     const current = e.currentTarget.className.split(' ')[0]
     console.log('drag over:', current, e.screenX, e.screenY)
 
+    // TODO: boardsを使ってcurrentと付き合わせる
     if (current === 'todo' || current === 'doing' || current === 'done') {
       setDragged((_prev) => ({ ..._prev, target: current }))
     }
 
-    // TODO: ここの仕様は途中なので考える
     if (boards.filter((board: BoardType) => board.title === current)) {
       const board = boards.filter(
         (board: BoardType) => board.title === current
       )[0]
-      board.isActive = true
-      // const newBoards = boards.filter(
-      //   (board: BoardType) => board.title !== current
-      // )
-      // console.log(newBoards, board)
-      // setBoards((_prev) => [...newBoards, board])
-      // console.log(boards)
-    }
-    // TODO: switch & never で縛る
-    if (current === 'todo') {
-      setIsTodo(true)
-    } else if (current === 'doing') {
-      setIsDoing(true)
-    } else if (current === 'done') {
-      setIsDone(true)
-    } else {
-      console.log('drag over error!!:', current)
+      dispatch(setBoardIsActive({ id: board.id, isActive: true }))
     }
   }
 
   const handleOnLeave = (e: React.DragEvent<HTMLDivElement>) => {
     console.log(`${e.currentTarget.className.split(' ')[0]} drag leave`)
-    if (e.currentTarget.className.split(' ')[0] === 'todo') {
-      setIsTodo(false)
-    } else if (e.currentTarget.className.split(' ')[0] === 'doing') {
-      setIsDoing(false)
-    } else if (e.currentTarget.className.split(' ')[0] === 'done') {
-      setIsDone(false)
-    }
+    const current = e.currentTarget.className.split(' ')[0]
+    const board = boards.filter(
+      (board: BoardType) => board.title === current
+    )[0]
+    dispatch(setBoardIsActive({ id: board.id, isActive: false }))
   }
 
   const handleClick = () => {
@@ -148,36 +85,25 @@ const Main = () => {
           .filter((todo) => todo.boardId === 1)
           .map((todo) => todo.orderId)
       ) | 0
-    setTodos([
-      ...todos,
-      {
+
+    dispatch(
+      addTodo({
         id: maxId + 1,
         title: `task title${maxId + 1}`,
         body: `task body${maxId + 1}`,
         boardId: 1,
         orderId: maxOrderId + 1,
-      },
-    ])
+      })
+    )
   }
 
   return (
-    <div className="flex  w-scree">
+    <div className="flex w-scree">
       <div className="flex m-8">
         {boards.map((board) => (
           <Board
             key={board.id}
             board={board}
-            setBoards={setBoards}
-            todos={todos}
-            // dragged={dragged}
-            // setDragged={setDragged}
-            isTodo={isTodo}
-            setIsTodo={setIsTodo}
-            isDoing={isDoing}
-            // setIsDoing={setIsDoing}
-            isDone={isDone}
-            // setIsDone={setIsDone}
-            // handleOnDrag={() => null}
             handleOnDrag={handleOnDrag}
             handleDragEnd={handleDragEnd}
             handleDragOver={handleDragOver}

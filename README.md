@@ -97,3 +97,9 @@ cli run
 ```
 npm run cy:run
 ```
+
+### redux-toolkit
+
+```
+npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @types/redux
+```

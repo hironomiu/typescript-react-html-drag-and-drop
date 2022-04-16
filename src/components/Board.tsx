@@ -1,21 +1,12 @@
 import React from 'react'
 import Cards from './Cards'
 import { Todo } from '../types'
+import { useSelector } from 'react-redux'
+import { selectTodos } from '../features/todo/todoSlice'
 
 // TODO: propsを綺麗にする
 const Board = ({
   board,
-  setBoards,
-  todos,
-  // setTodos,
-  // dragged,
-  // setDragged,
-  isTodo,
-  setIsTodo,
-  isDoing,
-  // setIsDoing,
-  isDone,
-  // setIsDone,
   handleOnDrag,
   handleDragEnd,
   handleDragOver,
@@ -26,25 +17,12 @@ const Board = ({
     title: string
     isActive: boolean
   }
-  setBoards: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: number
-        title: string
-        isActive: boolean
-      }[]
-    >
-  >
-  todos: Todo[]
-  isTodo: boolean
-  isDoing: boolean
-  isDone: boolean
-  setIsTodo: React.Dispatch<React.SetStateAction<boolean>>
   handleOnDrag: (e: React.DragEvent<HTMLDivElement>) => void
   handleDragEnd: () => void
   handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void
   handleOnLeave: (e: React.DragEvent<HTMLDivElement>) => void
 }) => {
+  const todos = useSelector(selectTodos)
   const styleMain =
     'w-64 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
   const styleActive = 'bg-blue-500'
@@ -53,9 +31,7 @@ const Board = ({
   return (
     <div
       className={
-        (board.title === 'todo' && isTodo) ||
-        (board.title === 'doing' && isDoing) ||
-        (board.title === 'done' && isDone)
+        board.isActive
           ? `${board.title} ${styleMain} ${styleActive}`
           : `${board.title} ${styleMain} ${styleInactive}`
       }
