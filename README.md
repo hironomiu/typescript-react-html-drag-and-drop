@@ -10,8 +10,20 @@ npm start
 
 ## Testing
 
+### testing-library/react
+
 ```
 npm test -- --coverage .
+```
+
+### Cypress
+
+```
+npm run cy:open
+```
+
+```
+npm run cy:run
 ```
 
 ## Install Memo
