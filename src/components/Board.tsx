@@ -1,32 +1,92 @@
 import React from 'react'
 import Cards from './Cards'
 import { Todo } from '../types'
-import { useSelector } from 'react-redux'
-import { selectTodos } from '../features/todo/todoSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectTodos, setTodoBoardId } from '../features/todo/todoSlice'
+import {
+  selectBoards,
+  setAllBoardIsActiveFlase,
+  setBoardIsActive,
+} from '../features/board/board.Slice'
+import { BoardType, Dragged } from '../types'
 
 // TODO: propsを綺麗にする
 const Board = ({
   board,
-  handleOnDrag,
-  handleDragEnd,
-  handleDragOver,
-  handleOnLeave,
+  dragged,
+  setDragged,
 }: {
   board: {
     id: number
     title: string
     isActive: boolean
   }
-  handleOnDrag: (e: React.DragEvent<HTMLDivElement>) => void
-  handleDragEnd: () => void
-  handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void
-  handleOnLeave: (e: React.DragEvent<HTMLDivElement>) => void
+  dragged: Dragged
+  setDragged: React.Dispatch<React.SetStateAction<Dragged>>
 }) => {
+  const dispatch = useDispatch()
   const todos = useSelector(selectTodos)
+  const boards = useSelector(selectBoards)
   const styleMain =
     'w-64 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
   const styleActive = 'bg-blue-500'
   const styleInactive = 'bg-blue-300'
+
+  const handleOnDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log('on drag:', e.currentTarget.className.split(' ')[0])
+    // TODO: currentをboards.titleにユニオン型で縛る（現状はstring）
+    const current = e.currentTarget.className.split(' ')[0]
+    if (boards.some((board: BoardType) => board.title === current))
+      setDragged((_prev) => ({
+        ..._prev,
+        id: Number((e.target as HTMLDivElement).id),
+        current: current,
+      }))
+  }
+
+  const handleDragEnd = () => {
+    if (dragged.current !== dragged.target) {
+      console.log('drag end:', dragged.current, dragged.target)
+      const board = boards.find(
+        (board) => board.title === dragged.target
+      ) as BoardType
+      dispatch(setTodoBoardId({ id: board.id, dragged }))
+    } else {
+      // TODO: board内の要素の入れ替えをここに実装する
+      console.log('drag end else!!!!!!!:', dragged)
+    }
+    setDragged({ id: 0, current: 'todo', target: 'todo' })
+    dispatch(setAllBoardIsActiveFlase())
+  }
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    // preventDefaultをすることでCardの動きがcurrentに戻る動作（戻ってからtargetに配置される）を防ぐ
+    e.preventDefault()
+    // TODO: currentを'todo' | 'doing' | 'done'に縛る方法（現状はstring）
+    const current = e.currentTarget.className.split(' ')[0]
+    console.log('drag over:', current, e.screenX, e.screenY)
+
+    // TODO: boardsを使ってcurrentと付き合わせる
+    if (current === 'todo' || current === 'doing' || current === 'done') {
+      setDragged((_prev) => ({ ..._prev, target: current }))
+    }
+
+    if (boards.filter((board: BoardType) => board.title === current)) {
+      const board = boards.filter(
+        (board: BoardType) => board.title === current
+      )[0]
+      dispatch(setBoardIsActive({ id: board.id, isActive: true }))
+    }
+  }
+
+  const handleOnLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log(`${e.currentTarget.className.split(' ')[0]} drag leave`)
+    const current = e.currentTarget.className.split(' ')[0]
+    const board = boards.filter(
+      (board: BoardType) => board.title === current
+    )[0]
+    dispatch(setBoardIsActive({ id: board.id, isActive: false }))
+  }
 
   return (
     <div
