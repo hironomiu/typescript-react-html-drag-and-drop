@@ -6,7 +6,9 @@ describe('Cards', () => {
     {
       id: 1,
       title: 'dummy title 1',
-      type: 1,
+      body: 'dummy body 1',
+      boardId: 1,
+      orderId: 1,
     },
   ]
   it('Cards', () => {
