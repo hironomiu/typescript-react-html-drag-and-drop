@@ -1,6 +1,20 @@
 import { render, screen } from '@testing-library/react'
 import Cards from '../components/Cards'
 import { Todo } from '../types'
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
+import boardReducer from '../features/board/board.Slice'
+import todoReducer from '../features/todo/todoSlice'
+import globalReducer from '../features/global/globalSlice'
+
+const store = configureStore({
+  reducer: {
+    board: boardReducer,
+    todo: todoReducer,
+    global: globalReducer,
+  },
+})
+
 describe('Cards', () => {
   const cards: Todo[] = [
     {
@@ -14,11 +28,13 @@ describe('Cards', () => {
   it('Cards', () => {
     const setDragOverCard = jest.fn()
     render(
-      <Cards
-        cards={cards}
-        dragOverCard={{ cardId: 0 }}
-        setDragOverCard={setDragOverCard}
-      />
+      <Provider store={store}>
+        <Cards
+          cards={cards}
+          dragOverCard={{ cardId: 0 }}
+          setDragOverCard={setDragOverCard}
+        />
+      </Provider>
     )
 
     expect(screen.getByText('dummy title 1')).toBeInTheDocument()

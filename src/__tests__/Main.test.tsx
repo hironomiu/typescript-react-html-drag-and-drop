@@ -4,11 +4,13 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import boardReducer from '../features/board/board.Slice'
 import todoReducer from '../features/todo/todoSlice'
+import globalReducer from '../features/global/globalSlice'
 
 const store = configureStore({
   reducer: {
     board: boardReducer,
     todo: todoReducer,
+    global: globalReducer,
   },
 })
 

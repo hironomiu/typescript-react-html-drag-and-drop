@@ -1,5 +1,7 @@
 import React from 'react'
 import { Todo } from '../types'
+import { useDispatch } from 'react-redux'
+import { setIsModalOn, setCardModalData } from '../features/global/globalSlice'
 
 type Props = {
   card: Todo
@@ -12,6 +14,8 @@ type Props = {
 }
 
 const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
+  const dispatch = useDispatch()
+
   return (
     <>
       {card.id === dragOverCard.cardId ? (
@@ -21,7 +25,10 @@ const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
         id={card.id.toString()}
         key={card.id}
         draggable
-        onClick={() => alert('clicked:' + card.id + card.body)}
+        onClick={() => {
+          dispatch(setCardModalData(card))
+          dispatch(setIsModalOn(true))
+        }}
         className="draggable w-56 h-20 bg-indigo-400 my-2 rounded-xl flex items-center justify-center hover:bg-indigo-700 hover:cursor-pointer"
         data-testid={`card-${card.id}`}
         onDragOver={(e: React.DragEvent<HTMLDivElement>) => {

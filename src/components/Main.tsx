@@ -4,11 +4,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
 import { selectTodos, addTodo } from '../features/todo/todoSlice'
 import { Dragged } from '../types'
+import CardModal from './modal/CardModal'
+import { selectIsModalOn } from '../features/global/globalSlice'
 
 const Main = () => {
   const dispatch = useDispatch()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
+  const isModalOn = useSelector(selectIsModalOn)
 
   // TODO: グローバルで持つか？
   const [dragged, setDragged] = useState<Dragged>({
@@ -46,6 +49,11 @@ const Main = () => {
 
   return (
     <div className="flex w-scree">
+      {isModalOn ? (
+        <>
+          <CardModal />
+        </>
+      ) : null}
       <div className="flex m-8">
         {boards.map((board) => (
           <Board
