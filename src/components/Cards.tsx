@@ -3,6 +3,7 @@ import { Todo } from '../types'
 
 type Props = {
   cards: Todo[]
+  dragOverCard: { cardId: number }
   setDragOverCard: React.Dispatch<
     React.SetStateAction<{
       cardId: number
@@ -10,11 +11,16 @@ type Props = {
   >
 }
 
-const Cards = ({ cards, setDragOverCard }: Props) => {
+const Cards = ({ cards, dragOverCard, setDragOverCard }: Props) => {
   return (
     <>
       {cards.map((card: Todo) => (
-        <Card key={card.id} card={card} setDragOverCard={setDragOverCard} />
+        <Card
+          key={card.id}
+          card={card}
+          dragOverCard={dragOverCard}
+          setDragOverCard={setDragOverCard}
+        />
       ))}
     </>
   )

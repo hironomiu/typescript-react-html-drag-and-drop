@@ -66,8 +66,10 @@ const Board = ({
           boards: boards,
         })
       )
+      setDragOverCard({ cardId: 0 })
     }
     setDragged({ id: 0, current: 'todo', target: 'todo' })
+    setDragOverCard({ cardId: 0 })
     dispatch(setAllBoardIsActiveFlase())
   }
 
@@ -116,11 +118,12 @@ const Board = ({
       // onDragEnter={() => console.log(`${board.title} drag enter`)}
     >
       <div className="my-4 flex flex-col items-center">
-        <span className="font-bold mb-4 text-2xl text-black">
+        <span className="font-bold mb-4 text-2xl text-blue-900">
           {board.title}
         </span>
         <Cards
           cards={todos.filter((todo: Todo) => todo.boardId === board.id)}
+          dragOverCard={dragOverCard}
           setDragOverCard={setDragOverCard}
         />
       </div>

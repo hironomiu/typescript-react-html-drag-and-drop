@@ -37,7 +37,7 @@ export const todoSlice = createSlice({
       newTodos.push(card)
 
       // ソート処理
-      // TODO: 下に抜き出す
+      // TODO: sortTodosに抜き出す
       // TODO: 型
       const resultTodos: any = [] as Todo[]
 
@@ -58,7 +58,7 @@ export const todoSlice = createSlice({
 
       state.todos = [...resultTodos]
     },
-    // TODO: 上のソートを抜き出す
+    // TODO: 上下のソートを抜き出す
     sortTodos: (state, action) => {},
     // TODO: 将来的にはAPI叩くのでThunkで実装する
     addTodo: (state, action) => {
@@ -66,7 +66,10 @@ export const todoSlice = createSlice({
       state.todos.push(action.payload)
     },
     swapTodo: (state, action) => {
-      if (action.payload.dradragOverCardId > 0) {
+      if (
+        action.payload.dradragOverCardId > 0 &&
+        action.payload.dradragOverCardId !== action.payload.id
+      ) {
         const target = {
           ...state.todos.find((todo) => todo.id === action.payload.id),
         } as Todo
@@ -90,7 +93,7 @@ export const todoSlice = createSlice({
 
         console.log('swapTodo:', target, action.payload, index)
         // ソート処理
-        // TODO: 下に抜き出す
+        // TODO: sortTodosに抜き出す
         // TODO: 型
         const resultTodos: any = [] as Todo[]
 

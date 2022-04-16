@@ -13,6 +13,7 @@ describe('Card', () => {
           boardId: 1,
           orderId: 1,
         }}
+        dragOverCard={{ cardId: 0 }}
         setDragOverCard={setDragOverCard}
       />
     )
