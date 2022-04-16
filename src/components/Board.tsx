@@ -10,20 +10,13 @@ import {
 } from '../features/board/board.Slice'
 import { BoardType, Dragged } from '../types'
 
-// TODO: propsを綺麗にする
-const Board = ({
-  board,
-  dragged,
-  setDragged,
-}: {
-  board: {
-    id: number
-    title: string
-    isActive: boolean
-  }
+type Props = {
+  board: BoardType
   dragged: Dragged
   setDragged: React.Dispatch<React.SetStateAction<Dragged>>
-}) => {
+}
+
+const Board = ({ board, dragged, setDragged }: Props) => {
   const dispatch = useDispatch()
   const todos = useSelector(selectTodos)
   const boards = useSelector(selectBoards)
@@ -50,7 +43,7 @@ const Board = ({
       const board = boards.find(
         (board) => board.title === dragged.target
       ) as BoardType
-      dispatch(setTodoBoardId({ id: board.id, dragged }))
+      dispatch(setTodoBoardId({ id: board.id, dragged, boards: boards }))
     } else {
       // TODO: board内の要素の入れ替えをここに実装する
       console.log('drag end else!!!!!!!:', dragged)

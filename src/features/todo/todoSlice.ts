@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
-import { Todo } from '../../types'
+import { BoardType, Todo } from '../../types'
+import { useSelector } from 'react-redux'
 
 type InitialState = {
   todos: Todo[]
@@ -24,6 +25,7 @@ export const todoSlice = createSlice({
       console.log('setTodos:', action.payload)
       state.todos = action.payload
     },
+    // TODO: actionにboardsを設定しているが直接boardSliceを参照可能ならそっちから参照する
     setTodoBoardId: (state, action) => {
       console.log('setTodoBoardId:', action.payload)
       const card = {
@@ -34,19 +36,27 @@ export const todoSlice = createSlice({
       card.boardId = action.payload.id
       const newTodos = [...state.todos.filter((todo) => todo.id !== card.id)]
       newTodos.push(card)
-      // TODO: ソートする（下は過去の実装をもってきている）
-      // let resultTodos: Todo[] = []
 
-      // boards.forEach((board) => {
-      //   const newTodos = todos.filter((todo) => todo.boardId === board.id)
-      //   const sorttedTodos: Todo[] = newTodos.map((todo: Todo, index) => ({
-      //     ...todo,
-      //     orderId: index + 1,
-      //   }))
-      //   resultTodos = [...resultTodos, ...sorttedTodos]
-      // })
+      // ソート処理
+      // TODO: 型
+      const resultTodos: any = [] as Todo[]
 
-      state.todos = [...newTodos]
+      action.payload.boards.forEach((board: BoardType) => {
+        const newNewTodos = [
+          ...newTodos.filter((todo) => todo.boardId === board.id),
+        ]
+        const sortedTodos: Todo[] = [
+          ...(newNewTodos.map((todo, index) => {
+            todo.orderId = index + 1
+            return { ...todo }
+          }) as Todo[]),
+        ]
+        console.log('sortedTodos:', sortedTodos)
+        resultTodos.push(...sortedTodos)
+      })
+      console.log('resultTodos:', resultTodos)
+
+      state.todos = [...resultTodos]
     },
     // TODO: 将来的にはAPI叩くのでThunkで実装する
     addTodo: (state, action) => {

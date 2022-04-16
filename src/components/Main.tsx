@@ -8,6 +8,7 @@ const Main = () => {
   const dispatch = useDispatch()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
+  // TODO: グローバルで持つか？
   const { dragged, setDragged } = useMain()
 
   const handleClick = () => {
