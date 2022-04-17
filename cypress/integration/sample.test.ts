@@ -1,4 +1,5 @@
 // cli用（ワーニングは一旦無視）
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cli } from 'cypress'
 
 describe('Cypress', () => {
