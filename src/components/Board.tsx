@@ -58,7 +58,7 @@ const Board = ({
       ) as BoardType
       dispatch(setTodoBoardId({ id: board.id, dragged, boards: boards }))
     } else {
-      // TODO: board内の要素の入れ替えをここに実装する
+      // board内の要素の入れ替え
       console.log('drag end else!!!!!!!:', dragged, dragOverCard)
       if (dragOverCard.cardId > 0 && dragOverCard.cardId !== dragged.id) {
         dispatch(
@@ -82,25 +82,17 @@ const Board = ({
     const current = e.currentTarget.className.split(' ')[0]
     console.log('drag over:', current, e.screenX, e.screenY)
 
-    // TODO: boardsを使ってcurrentと付き合わせる
-    if (current === 'todo' || current === 'doing' || current === 'done') {
+    const board = boards.find((b) => b.title === current) as BoardType
+    if (board) {
       setDragged((_prev) => ({ ..._prev, target: current }))
-    }
-
-    if (boards.filter((board: BoardType) => board.title === current)) {
-      const board = boards.filter(
-        (board: BoardType) => board.title === current
-      )[0]
       dispatch(setBoardIsActive({ id: board.id, isActive: true }))
     }
   }
 
   const handleOnLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    console.log(`${e.currentTarget.className.split(' ')[0]} drag leave`)
     const current = e.currentTarget.className.split(' ')[0]
-    const board = boards.filter(
-      (board: BoardType) => board.title === current
-    )[0]
+    console.log(`${current} drag leave`)
+    const board = boards.find((b) => b.title === current) as BoardType
     dispatch(setBoardIsActive({ id: board.id, isActive: false }))
   }
 
