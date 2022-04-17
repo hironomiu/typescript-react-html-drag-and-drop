@@ -20,26 +20,35 @@ const CardModal = () => {
           onClick={() => dispatch(setIsModalOn(false))}
           className="bg-black opacity-0 w-full h-full absolute z-10 inset-0"
         />
-        <div className="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+        <div className="bg-blue-100 rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
           <div className="md:flex items-start w-96 h-64">
-            <div className="mt-4 md:mt-0 md:ml-6 text-center md:text-left w-screen">
+            <div className="mt-4 md:mt-0 md:mx-6 text-center md:text-left w-screen">
               <p className="font-bold text-2xl">Your Todo</p>
               <p className="text-sm text-gray-700 mt-1">
-                {cardModalData.title}
+                <input
+                  className="w-full h-8 p-2"
+                  type="text"
+                  value={cardModalData.title}
+                />
               </p>
-              <p className="text-sm text-gray-700 mt-1">{cardModalData.body}</p>
+              <p className="text-sm text-gray-700 mt-4">
+                <textarea
+                  className="w-full h-40 p-2"
+                  value={cardModalData.body}
+                />
+              </p>
             </div>
           </div>
           <div className="text-center md:text-right mt-4 md:flex md:justify-end">
             <button
               onClick={() => dispatch(setIsModalOn(false))}
-              className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-blue-200 text-blue-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
+              className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 hover:bg-blue-400 bg-blue-200 text-blue-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
             >
               Update
             </button>
             <button
               onClick={() => dispatch(setIsModalOn(false))}
-              className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm mt-4
+              className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 hover:bg-gray-400 bg-gray-200 rounded-lg font-semibold text-sm mt-4
           md:mt-0 md:order-1"
             >
               Close
