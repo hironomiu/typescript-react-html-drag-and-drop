@@ -50,6 +50,7 @@ const Board = ({
   }
 
   const handleDragEnd = () => {
+    // TODO: 違うBoard、同じBoardで処理を分けているが可能なら同じReducerでまとめる
     if (dragged.current !== dragged.target) {
       console.log('drag end:', dragged.current, dragged.target)
       const board = boards.find(
@@ -59,14 +60,15 @@ const Board = ({
     } else {
       // TODO: board内の要素の入れ替えをここに実装する
       console.log('drag end else!!!!!!!:', dragged, dragOverCard)
-      dispatch(
-        swapTodo({
-          id: dragged.id,
-          dradragOverCardId: dragOverCard.cardId,
-          boards: boards,
-        })
-      )
-      setDragOverCard({ cardId: 0 })
+      if (dragOverCard.cardId > 0 && dragOverCard.cardId !== dragged.id) {
+        dispatch(
+          swapTodo({
+            id: dragged.id,
+            dragOverCardId: dragOverCard.cardId,
+            boards: boards,
+          })
+        )
+      }
     }
     setDragged({ id: 0, current: 'todo', target: 'todo' })
     setDragOverCard({ cardId: 0 })

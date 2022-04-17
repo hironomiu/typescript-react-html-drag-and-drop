@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
-
+import { Dispatch } from 'redux'
 type InitialState = {
   todos: Todo[]
 }
@@ -27,97 +27,95 @@ export const todoSlice = createSlice({
     // TODO: actionにboardsを設定しているが直接boardSliceを参照可能ならそっちから参照する
     setTodoBoardId: (state, action) => {
       console.log('setTodoBoardId:', action.payload)
-      const card = {
-        ...(state.todos.find(
-          (todo) => todo.id === action.payload.dragged.id
-        ) as Todo),
-      }
+      const card = state.todos.find(
+        (t) => t.id === action.payload.dragged.id
+      ) as Todo
       card.boardId = action.payload.id
-      const newTodos = [...state.todos.filter((todo) => todo.id !== card.id)]
+      const newTodos = [...state.todos.filter((t) => t.id !== card.id)]
       newTodos.push(card)
 
       // ソート処理
       // TODO: sortTodosに抜き出す
-      // TODO: 型
-      const resultTodos: any = [] as Todo[]
+      const resultTodos: Todo[] = [] as Todo[]
 
       action.payload.boards.forEach((board: BoardType) => {
-        const newNewTodos = [
-          ...newTodos.filter((todo) => todo.boardId === board.id),
-        ]
-        const sortedTodos: Todo[] = [
-          ...(newNewTodos.map((todo, index) => {
-            todo.orderId = index + 1
-            return { ...todo }
-          }) as Todo[]),
-        ]
-        console.log('sortedTodos:', sortedTodos)
+        const newNewTodos = newTodos.filter((t) => t.boardId === board.id)
+        const sortedTodos = newNewTodos.map((t, i) => {
+          t.orderId = i + 1
+          return { ...t }
+        }) as Todo[]
         resultTodos.push(...sortedTodos)
       })
-      console.log('resultTodos:', resultTodos)
 
-      state.todos = [...resultTodos]
+      state.todos = resultTodos
     },
     // TODO: 上下のソートを抜き出す
     sortTodos: (state, action) => {},
-    // TODO: 将来的にはAPI叩くのでThunkで実装する
+    // TODO: 将来的にはAPI叩くのでasync Thunkで実装する
     addTodo: (state, action) => {
       console.log(action.payload)
       state.todos.push(action.payload)
     },
     swapTodo: (state, action) => {
-      if (
-        action.payload.dradragOverCardId > 0 &&
-        action.payload.dradragOverCardId !== action.payload.id
-      ) {
-        const target = {
-          ...state.todos.find((todo) => todo.id === action.payload.id),
-        } as Todo
-        const dradragOverCard = {
-          ...state.todos.find(
-            (todo) => todo.id === action.payload.dradragOverCardId
-          ),
-        } as Todo
-        const newTodos = [
-          ...state.todos.filter((todo) => todo.id !== action.payload.id),
-        ]
-        const index = newTodos.findIndex(
-          (todo) => todo.id === action.payload.dradragOverCardId
-        )
-        if (target.orderId < dradragOverCard.orderId) {
-          console.log('big')
-          newTodos.splice(index + 1, 0, target)
-        } else {
-          newTodos.splice(index, 0, target)
-        }
+      const target = state.todos.find((t) => t.id === action.payload.id) as Todo
+      const dragOverCard = state.todos.find(
+        (t) => t.id === action.payload.dragOverCardId
+      ) as Todo
+      const newTodos = state.todos.filter((t) => t.id !== action.payload.id)
 
-        console.log('swapTodo:', target, action.payload, index)
-        // ソート処理
-        // TODO: sortTodosに抜き出す
-        // TODO: 型
-        const resultTodos: any = [] as Todo[]
+      const index = newTodos.findIndex(
+        (t) => t.id === action.payload.dragOverCardId
+      )
+      target.orderId < dragOverCard.orderId
+        ? newTodos.splice(index + 1, 0, target)
+        : newTodos.splice(index, 0, target)
 
-        action.payload.boards.forEach((board: BoardType) => {
-          const newNewTodos = [
-            ...newTodos.filter((todo) => todo.boardId === board.id),
-          ]
-          const sortedTodos: Todo[] = [
-            ...(newNewTodos.map((todo, index) => {
-              todo.orderId = index + 1
-              return { ...todo }
-            }) as Todo[]),
-          ]
-          console.log('sortedTodos:', sortedTodos)
-          resultTodos.push(...sortedTodos)
-        })
-        console.log('resultTodos:', resultTodos)
+      // ソート処理
+      // TODO: sortTodosに抜き出す
+      const resultTodos: Todo[] = [] as Todo[]
 
-        state.todos = [...resultTodos]
-      }
+      action.payload.boards.forEach((board: BoardType) => {
+        const newNewTodos = newTodos.filter((t) => t.boardId === board.id)
+        const sortedTodos = newNewTodos.map((t, i) => {
+          t.orderId = i + 1
+          return { ...t }
+        }) as Todo[]
+        resultTodos.push(...sortedTodos)
+      })
+
+      state.todos = resultTodos
     },
   },
 })
 
 export const selectTodos = (state: RootState) => state.todo.todos
-export const { setTodos, setTodoBoardId, addTodo, swapTodo } = todoSlice.actions
+
+// TODO: 型 & 実装
+export const swapTodoXXX =
+  ({ dradragOverCardId, id, boards }: any) =>
+  (dispatch: Dispatch, getState: any) => {
+    const todos = selectTodos(getState())
+    if (dradragOverCardId > 0 && dradragOverCardId !== id) {
+      const target = {
+        ...todos.find((todo: Todo) => todo.id === id),
+      } as Todo
+      const dradragOverCard = {
+        ...todos.find((todo: Todo) => todo.id === dradragOverCardId),
+      } as Todo
+      const newTodos = [...todos.filter((todo: Todo) => todo.id !== id)]
+      const index = newTodos.findIndex((todo) => todo.id === dradragOverCardId)
+      if (target.orderId < dradragOverCard.orderId) {
+        console.log('big')
+        newTodos.splice(index + 1, 0, target)
+      } else {
+        newTodos.splice(index, 0, target)
+      }
+
+      console.log('swapTodo:', target, index)
+      dispatch(sortTodos({ newTodos, boards }))
+    }
+  }
+
+export const { setTodos, setTodoBoardId, addTodo, swapTodo, sortTodos } =
+  todoSlice.actions
 export default todoSlice.reducer
