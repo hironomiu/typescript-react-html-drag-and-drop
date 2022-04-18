@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
-import { selectTodos, addTodo } from '../features/todo/todoSlice'
+import { selectTodos } from '../features/todo/todoSlice'
 import { Dragged } from '../types'
 import CardModal from './modal/CardModal'
 import {
@@ -46,7 +46,7 @@ const Main = () => {
         id: maxId + 1,
         title: '',
         body: '',
-        boardId: 1,
+        boardId: 0,
         orderId: maxOrderId + 1,
       })
     )

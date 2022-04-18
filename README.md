@@ -2,6 +2,12 @@
 
 HTML Drag & Drop API を利用したドラッグ&ドロップ
 
+## SetUp
+
+```
+npm install
+```
+
 ## Run
 
 ```
