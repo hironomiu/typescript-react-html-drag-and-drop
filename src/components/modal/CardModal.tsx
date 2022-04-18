@@ -107,6 +107,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
                   type="text"
                   value={input}
                   onChange={handleInputChange}
+                  data-testid="title-input"
                   ref={ref}
                 />
               </p>
@@ -115,6 +116,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
                   className="w-full h-40 p-2"
                   value={textArea}
                   onChange={handleTextAreaChange}
+                  data-testid="body-textarea"
                 />
               </p>
               <select
