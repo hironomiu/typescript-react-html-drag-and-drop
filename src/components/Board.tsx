@@ -98,6 +98,8 @@ const Board = ({
 
   return (
     <div
+      // TODO: board同士でドラッグ&ドロップできるようにする
+      // draggable
       className={
         board.isActive
           ? `${board.title} ${styleMain} ${styleActive}`
