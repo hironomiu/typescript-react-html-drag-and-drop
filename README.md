@@ -121,3 +121,37 @@ npm run cy:run
 ```
 npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @types/redux
 ```
+
+## Data Structure Memo
+
+サーバサイド側を実装する際のデータ構造についてのメモ(users はユーザ単位で管理するためにとりあえず作成)
+
+```
+create database dnd;
+
+create table users(
+  id int unsigned not null auto_increment,
+  primary key (id)
+);
+
+create table boards(
+  id int unsigned not null auto_increment,
+  user_id int unsigned not null,
+  title varchar(100),
+  primary key (id),
+  constraint boards_fk_1 foreign key (user_id) references users (id)
+);
+
+create table todos (
+  id int unsigned not null auto_increment,
+  user_id int unsigned not null,
+  title varchar(100) not null,
+  body text not null,
+  board_id int unsigned not null,
+  order_id int unsigned not null,
+  primary key (id),
+  unique key (board_id,order_id),
+  constraint todos_fk_1 foreign key (board_id) references boards (id),
+  constraint todos_fk_2 foreign key (user_id) references users (id)
+);
+```
