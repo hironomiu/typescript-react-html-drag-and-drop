@@ -5,6 +5,8 @@ import {
   selectCardModalData,
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/board.Slice'
+import { updateTodo } from '../../features/todo/todoSlice'
+
 const CardModal = () => {
   const dispatch = useDispatch()
   const cardModalData = useSelector(selectCardModalData)
@@ -23,12 +25,21 @@ const CardModal = () => {
     setTextArea((_prev) => (_prev = e.target.value))
   }
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
     setSelect(Number(e.target.value))
   }
 
-  // TODO: Update
+  // TODO: 引数で渡すstateの変数名を合わせる
+  // TODO: boardIdを変更した際の新しいboardでの並び順
   const handleUpdateClick = () => {
+    dispatch(
+      updateTodo({
+        id: cardModalData.id,
+        title: input,
+        body: textArea,
+        boardId: select,
+        orderId: cardModalData.orderId,
+      })
+    )
     dispatch(setIsModalOn(false))
   }
 

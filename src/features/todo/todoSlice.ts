@@ -83,6 +83,16 @@ export const todoSlice = createSlice({
 
       state.todos = resultTodos
     },
+    // TODO: 一旦仮で実装（本来はAPIを叩くのでasyncThunkで処理させる）
+    updateTodo: (state, action) => {
+      const index = state.todos.findIndex(
+        (todo) => todo.id === action.payload.id
+      )
+      const newTodos = [...state.todos]
+      newTodos[index] = { ...action.payload }
+
+      state.todos = newTodos
+    },
   },
 })
 
@@ -114,6 +124,12 @@ export const swapTodoXXX =
     }
   }
 
-export const { setTodos, setTodoBoardId, addTodo, swapTodo, sortTodos } =
-  todoSlice.actions
+export const {
+  setTodos,
+  setTodoBoardId,
+  addTodo,
+  swapTodo,
+  sortTodos,
+  updateTodo,
+} = todoSlice.actions
 export default todoSlice.reducer

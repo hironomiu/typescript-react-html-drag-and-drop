@@ -18,8 +18,8 @@ export const globalSlice = createSlice({
   reducers: {
     setIsModalOn: (state, action) => {
       state.isModalOn = action.payload
-      console.log('isModalOn:', state.isModalOn)
     },
+    // TODO: このstateの格納先はここが良いかtodoSliceが良いか考える
     setCardModalData: (state, action) => {
       state.cardModalData = action.payload
     },
