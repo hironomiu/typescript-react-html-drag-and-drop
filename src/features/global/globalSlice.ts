@@ -3,12 +3,14 @@ import { RootState } from '../../app/store'
 import { Todo } from '../../types'
 
 type InitialState = {
-  isModalOn: boolean
+  isCreateModalOn: boolean
+  isUpdateModalOn: boolean
   cardModalData: Todo
 }
 
 const initialState: InitialState = {
-  isModalOn: false,
+  isCreateModalOn: false,
+  isUpdateModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
 }
 
@@ -16,8 +18,13 @@ export const globalSlice = createSlice({
   name: 'global',
   initialState,
   reducers: {
-    setIsModalOn: (state, action) => {
-      state.isModalOn = action.payload
+    // TODOの作成処理用モーダル出力制御
+    setIsCreateModalOn: (state, action) => {
+      state.isCreateModalOn = action.payload as boolean
+    },
+    // TODOの更新処理用モーダル出力制御
+    setIsUpdateModalOn: (state, action) => {
+      state.isUpdateModalOn = action.payload as boolean
     },
     // TODO: このstateの格納先はここが良いかtodoSliceが良いか考える
     setCardModalData: (state, action) => {
@@ -26,8 +33,12 @@ export const globalSlice = createSlice({
   },
 })
 
-export const selectIsModalOn = (state: RootState) => state.global.isModalOn
+export const selectIsCreateModalOn = (state: RootState) =>
+  state.global.isCreateModalOn
+export const selectIsUpdateModalOn = (state: RootState) =>
+  state.global.isUpdateModalOn
 export const selectCardModalData = (state: RootState) =>
   state.global.cardModalData
-export const { setIsModalOn, setCardModalData } = globalSlice.actions
+export const { setIsCreateModalOn, setIsUpdateModalOn, setCardModalData } =
+  globalSlice.actions
 export default globalSlice.reducer

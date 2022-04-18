@@ -5,13 +5,19 @@ import { selectBoards } from '../features/board/board.Slice'
 import { selectTodos, addTodo } from '../features/todo/todoSlice'
 import { Dragged } from '../types'
 import CardModal from './modal/CardModal'
-import { selectIsModalOn } from '../features/global/globalSlice'
+import {
+  selectIsCreateModalOn,
+  selectIsUpdateModalOn,
+  setIsCreateModalOn,
+  setCardModalData,
+} from '../features/global/globalSlice'
 
 const Main = () => {
   const dispatch = useDispatch()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
-  const isModalOn = useSelector(selectIsModalOn)
+  const isCreateModalOn = useSelector(selectIsCreateModalOn)
+  const isUpdateModalOn = useSelector(selectIsUpdateModalOn)
 
   // TODO: グローバルで持つか？
   const [dragged, setDragged] = useState<Dragged>({
@@ -35,23 +41,28 @@ const Main = () => {
           .filter((todo) => todo.boardId === 1)
           .map((todo) => todo.orderId)
       ) | 0
-
     dispatch(
-      addTodo({
+      setCardModalData({
         id: maxId + 1,
-        title: `task title${maxId + 1}`,
-        body: `task body${maxId + 1}`,
+        title: '',
+        body: '',
         boardId: 1,
         orderId: maxOrderId + 1,
       })
     )
+    dispatch(setIsCreateModalOn(true))
   }
 
   return (
     <div className="flex w-scree">
-      {isModalOn ? (
+      {isCreateModalOn ? (
         <>
-          <CardModal />
+          <CardModal mode={'create'} />
+        </>
+      ) : null}
+      {isUpdateModalOn ? (
+        <>
+          <CardModal mode={'update'} />
         </>
       ) : null}
       <div className="flex m-8">

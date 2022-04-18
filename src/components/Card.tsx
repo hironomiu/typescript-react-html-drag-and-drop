@@ -1,7 +1,10 @@
 import React from 'react'
 import { Todo } from '../types'
 import { useDispatch } from 'react-redux'
-import { setIsModalOn, setCardModalData } from '../features/global/globalSlice'
+import {
+  setIsUpdateModalOn,
+  setCardModalData,
+} from '../features/global/globalSlice'
 
 type Props = {
   card: Todo
@@ -27,7 +30,7 @@ const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
         draggable
         onClick={() => {
           dispatch(setCardModalData(card))
-          dispatch(setIsModalOn(true))
+          dispatch(setIsUpdateModalOn(true))
         }}
         className="draggable w-56 h-20 bg-indigo-400 my-2 rounded-xl flex items-center justify-center hover:bg-indigo-700 hover:cursor-pointer"
         data-testid={`card-${card.id}`}
