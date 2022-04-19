@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { BoardType } from '../../types'
 
@@ -9,12 +9,18 @@ const initialState: InitialState = {
   // TODO: 仮で設定 -> どっかでダミーのThunk化にする（その後サーバサイド実装）
   boards: [
     // id = Todo.type
-    { id: 1, title: 'todo', isActive: false },
-    { id: 2, title: 'doing', isActive: false },
-    { id: 3, title: 'done', isActive: false },
+    // { id: 1, title: 'todo', isActive: false },
+    // { id: 2, title: 'doing', isActive: false },
+    // { id: 3, title: 'done', isActive: false },
   ],
 }
 
+export const fetchBoards = createAsyncThunk('boards/fetch', async () => {
+  console.log(process.env.REACT_APP_API_URL)
+  const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/boards')
+  const data = await response.json()
+  return data
+})
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -34,6 +40,19 @@ export const boardSlice = createSlice({
         return board
       })
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchBoards.pending, (state) => {
+      console.log('loading')
+    })
+    builder.addCase(fetchBoards.fulfilled, (state, action) => {
+      console.log('fulfilled:', action.payload)
+      state.boards = action.payload.map((data: any) => ({
+        id: data.id,
+        title: data.title,
+        isActive: false,
+      }))
+    })
   },
 })
 
