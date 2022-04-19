@@ -1,5 +1,7 @@
 # typescript-react-html-drag-and-drop
 
+[![Node.js CI](https://github.com/hironomiu/typescript-react-html-drag-and-drop/actions/workflows/node.js.yml/badge.svg)](https://github.com/hironomiu/typescript-react-html-drag-and-drop/actions/workflows/node.js.yml)
+
 HTML Drag & Drop API を利用したドラッグ&ドロップ
 
 ![demo](./demo.gif)
