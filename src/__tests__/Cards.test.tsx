@@ -31,7 +31,7 @@ describe('Cards', () => {
       <Provider store={store}>
         <Cards
           cards={cards}
-          dragOverCard={{ cardId: 0 }}
+          dragOverCard={{ cardId: 0, orderId: 0 }}
           setDragOverCard={setDragOverCard}
         />
       </Provider>
