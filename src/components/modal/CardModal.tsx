@@ -125,7 +125,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
                 onChange={handleChange}
               >
                 <option key={0} value="0">
-                  進捗状況を選択
+                  Select Progress
                 </option>
                 {boards.map((board) => (
                   <option

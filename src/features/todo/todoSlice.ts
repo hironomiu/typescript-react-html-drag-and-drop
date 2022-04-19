@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
-import { Dispatch } from 'redux'
 
 type InitialState = {
   todos: Todo[]
@@ -97,32 +96,6 @@ export const todoSlice = createSlice({
 })
 
 export const selectTodos = (state: RootState) => state.todo.todos
-
-// TODO: 型 & 実装
-export const swapTodoXXX =
-  ({ dradragOverCardId, id, boards }: any) =>
-  (dispatch: Dispatch, getState: any) => {
-    const todos = selectTodos(getState())
-    if (dradragOverCardId > 0 && dradragOverCardId !== id) {
-      const target = {
-        ...todos.find((todo: Todo) => todo.id === id),
-      } as Todo
-      const dradragOverCard = {
-        ...todos.find((todo: Todo) => todo.id === dradragOverCardId),
-      } as Todo
-      const newTodos = [...todos.filter((todo: Todo) => todo.id !== id)]
-      const index = newTodos.findIndex((todo) => todo.id === dradragOverCardId)
-      if (target.orderId < dradragOverCard.orderId) {
-        console.log('big')
-        newTodos.splice(index + 1, 0, target)
-      } else {
-        newTodos.splice(index, 0, target)
-      }
-
-      console.log('swapTodo:', target, index)
-      dispatch(sortTodos({ newTodos, boards }))
-    }
-  }
 
 export const {
   setTodos,
