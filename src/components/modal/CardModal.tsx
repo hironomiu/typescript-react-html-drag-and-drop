@@ -143,7 +143,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
             <button
               onClick={handleClick}
               className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 disabled:bg-white disabled:text-gray-200 hover:bg-blue-400 bg-blue-200 text-blue-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
-              data-testid="card-modal-update-button"
+              data-testid="card-modal-create-and-update-button"
               disabled={input === '' || textArea === '' || select === 0}
             >
               {mode === 'create' ? 'Create' : 'Update'}
