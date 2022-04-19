@@ -2,6 +2,8 @@
 
 HTML Drag & Drop API を利用したドラッグ&ドロップ
 
+![demo](./demo.gif)
+
 ## SetUp
 
 ```
