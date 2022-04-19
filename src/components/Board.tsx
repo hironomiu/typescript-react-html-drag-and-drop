@@ -57,6 +57,16 @@ const Board = ({
         (board) => board.title === dragged.target
       ) as BoardType
       dispatch(setTodoBoardId({ id: board.id, dragged, boards: boards }))
+      // board内の要素の入れ替え
+      if (dragOverCard.cardId > 0 && dragOverCard.cardId !== dragged.id) {
+        dispatch(
+          swapTodo({
+            id: dragged.id,
+            dragOverCardId: dragOverCard.cardId,
+            boards: boards,
+          })
+        )
+      }
     } else {
       // board内の要素の入れ替え
       console.log('drag end else!!!!!!!:', dragged, dragOverCard)
