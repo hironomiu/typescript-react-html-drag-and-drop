@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
@@ -11,13 +11,18 @@ import {
   setIsCreateModalOn,
   setCardModalData,
 } from '../features/global/globalSlice'
-
+import { fetchBoards } from '../features/board/board.Slice'
 const Main = () => {
   const dispatch = useDispatch()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
   const isCreateModalOn = useSelector(selectIsCreateModalOn)
   const isUpdateModalOn = useSelector(selectIsUpdateModalOn)
+
+  // TODO: boardsの読み込み（ここで良いか？）
+  useEffect(() => {
+    dispatch(fetchBoards())
+  }, [dispatch])
 
   // TODO: グローバルで持つか？
   const [dragged, setDragged] = useState<Dragged>({

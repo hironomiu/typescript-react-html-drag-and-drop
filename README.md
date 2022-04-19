@@ -124,6 +124,12 @@ npm run cy:run
 npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @types/redux
 ```
 
+### MSW
+
+```
+npm install --save-dev msw
+```
+
 ## Data Structure Memo
 
 サーバサイド側を実装する際のデータ構造についてのメモ(users はユーザ単位で管理するためにとりあえず作成)
