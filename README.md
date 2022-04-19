@@ -131,10 +131,21 @@ npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @t
 ```
 create database dnd;
 
+drop table boards;
+drop table todos;
+drop table users;
+
 create table users(
   id int unsigned not null auto_increment,
-  primary key (id)
+  nickname varchar(100) not null,
+  email varchar(100) not null,
+  primary key (id),
+  unique key(email)
 );
+
+insert into users(nickname,email) values
+('太郎','taro@example.com'),
+('花子','hanako@example.com');
 
 create table boards(
   id int unsigned not null auto_increment,
@@ -143,6 +154,11 @@ create table boards(
   primary key (id),
   constraint boards_fk_1 foreign key (user_id) references users (id)
 );
+
+insert into boards(user_id,title) values
+(1,'todo'),
+(1,'doing'),
+(1,'done');
 
 create table todos (
   id int unsigned not null auto_increment,
@@ -156,4 +172,11 @@ create table todos (
   constraint todos_fk_1 foreign key (board_id) references boards (id),
   constraint todos_fk_2 foreign key (user_id) references users (id)
 );
+
+insert into todos(user_id,title,body,board_id,order_id) values
+(1,'title 1','body 1',1,1),
+(1,'title 2','body 2',1,2),
+(1,'title 3','body 3',1,3),
+(1,'title 4','body 4',1,4);
+
 ```
