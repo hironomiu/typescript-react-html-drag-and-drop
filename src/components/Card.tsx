@@ -8,10 +8,11 @@ import {
 
 type Props = {
   card: Todo
-  dragOverCard: { cardId: number }
+  dragOverCard: { cardId: number; orderId: number }
   setDragOverCard: React.Dispatch<
     React.SetStateAction<{
       cardId: number
+      orderId: number
     }>
   >
 }
@@ -19,6 +20,7 @@ type Props = {
 const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
   const dispatch = useDispatch()
 
+  console.log('Card:', card, dragOverCard)
   return (
     <>
       {card.id === dragOverCard.cardId ? (
@@ -37,9 +39,13 @@ const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
         onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
           console.log('taraget:', e.target, e.currentTarget)
 
-          setDragOverCard((_prev) => (_prev = { cardId: card.id }))
+          setDragOverCard(
+            (_prev) => (_prev = { cardId: card.id, orderId: card.orderId })
+          )
         }}
-        onDragLeave={() => setDragOverCard((_prev) => (_prev = { cardId: 0 }))}
+        onDragLeave={() =>
+          setDragOverCard((_prev) => (_prev = { cardId: 0, orderId: 0 }))
+        }
       >
         <span>{card.title}</span>
       </div>

@@ -31,8 +31,13 @@ const Main = () => {
     target: 'todo',
   })
   // TODO: グローバルで持つか？
-  const [dragOverCard, setDragOverCard] = useState<{ cardId: number }>({
+  const [dragOverCard, setDragOverCard] = useState<{
+    cardId: number
+    // TODO: MEMO: cardの入れ替えで利用する（一旦使えるか調べる）
+    orderId: number
+  }>({
     cardId: 0,
+    orderId: 0,
   })
 
   const handleClick = () => {

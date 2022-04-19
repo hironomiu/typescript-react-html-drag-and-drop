@@ -18,8 +18,13 @@ type Props = {
   board: BoardType
   dragged: Dragged
   setDragged: React.Dispatch<React.SetStateAction<Dragged>>
-  dragOverCard: { cardId: number }
-  setDragOverCard: React.Dispatch<React.SetStateAction<{ cardId: number }>>
+  dragOverCard: { cardId: number; orderId: number }
+  setDragOverCard: React.Dispatch<
+    React.SetStateAction<{
+      cardId: number
+      orderId: number
+    }>
+  >
 }
 
 const Board = ({
@@ -81,7 +86,7 @@ const Board = ({
       }
     }
     setDragged({ id: 0, current: 'todo', target: 'todo' })
-    setDragOverCard({ cardId: 0 })
+    setDragOverCard({ cardId: 0, orderId: 0 })
     dispatch(setAllBoardIsActiveFlase())
   }
 

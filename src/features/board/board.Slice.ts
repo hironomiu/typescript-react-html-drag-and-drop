@@ -16,11 +16,12 @@ const initialState: InitialState = {
 }
 
 export const fetchBoards = createAsyncThunk('boards/fetch', async () => {
-  console.log(process.env.REACT_APP_API_URL)
-  const response = await fetch(process.env.REACT_APP_API_URL + '/api/v1/boards')
+  const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/boards')
+  const response = await fetch(url.toString())
   const data = await response.json()
   return data
 })
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -46,7 +47,7 @@ export const boardSlice = createSlice({
       console.log('loading')
     })
     builder.addCase(fetchBoards.fulfilled, (state, action) => {
-      console.log('fulfilled:', action.payload)
+      // MEMO: isActiveはboardにドラッグオーバーしてる状態を管理（DBでは持っていない）
       state.boards = action.payload.map((data: any) => ({
         id: data.id,
         title: data.title,

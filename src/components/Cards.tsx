@@ -3,10 +3,11 @@ import { Todo } from '../types'
 
 type Props = {
   cards: Todo[]
-  dragOverCard: { cardId: number }
+  dragOverCard: { cardId: number; orderId: number }
   setDragOverCard: React.Dispatch<
     React.SetStateAction<{
       cardId: number
+      orderId: number
     }>
   >
 }
