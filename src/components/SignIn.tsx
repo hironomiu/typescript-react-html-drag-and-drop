@@ -33,8 +33,8 @@ const SignIn = () => {
   }, [])
 
   return (
-    <div className="flex flex-col h-screen w-screen  items-center justify-center">
-      <h1 className="text-2xl mb-10">SignIn</h1>
+    <div className="flex flex-col h-[50%] w-screen  items-center justify-center">
+      <h1 className="text-3xl mb-10 font-bold text-white">SignIn</h1>
       <div>
         <input
           type="text"
@@ -58,7 +58,7 @@ const SignIn = () => {
         onClick={handleClick}
         data-testid="signin-button"
         disabled={!email || !password}
-        className=""
+        className="border-[1px] w-24 h-8 text-gray-100 disabled:text-gray-400"
       >
         SignIn
       </button>
