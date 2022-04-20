@@ -123,7 +123,7 @@ npm run cy:run
 ### redux-toolkit
 
 ```
-npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @types/redux
+npm install @reduxjs/toolkit react-redux
 ```
 
 ### MSW

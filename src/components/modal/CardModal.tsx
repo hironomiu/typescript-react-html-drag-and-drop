@@ -8,6 +8,7 @@ import {
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/board.Slice'
 import { fetchUpdateTodo, fetchCreateTodo } from '../../features/todo/todoSlice'
+import { AppDispatch } from '../../app/store'
 
 const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const ref = useRef<HTMLInputElement>(null!)
@@ -15,7 +16,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
     ref.current.focus()
   }, [])
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const cardModalData = useSelector(selectCardModalData)
   const boards = useSelector(selectBoards)
   // title
