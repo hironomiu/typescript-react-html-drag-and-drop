@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { response } from 'msw'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
 
@@ -22,6 +23,29 @@ export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
   const data = await response.json()
   return data
 })
+
+export const fetchUpdateTodo = createAsyncThunk(
+  'todo/update',
+  // TODO: 型
+  async (data: any) => {
+    console.log('fetchUpdateTodo:', data)
+    const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
+    const response = await fetch(url.toString(), {
+      method: 'PUT',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        //'CSRF-Token': csrfToken
+      },
+      redirect: 'follow',
+      body: JSON.stringify(data),
+    })
+    const json = await response.json()
+    return { json: json, data: data }
+  }
+)
 
 export const todoSlice = createSlice({
   name: 'todo',
@@ -112,6 +136,19 @@ export const todoSlice = createSlice({
         boardId: data.board_id,
         orderId: data.order_id,
       }))
+    })
+    builder.addCase(fetchUpdateTodo.pending, (state, action) => {
+      console.log('fetchUpdateTodo loading')
+    })
+    builder.addCase(fetchUpdateTodo.fulfilled, (state, action) => {
+      // TODO: updateTodoと全く同じなのでまとめる
+      const index = state.todos.findIndex(
+        (todo) => todo.id === action.payload.data.id
+      )
+      const newTodos = [...state.todos]
+      newTodos[index] = { ...action.payload.data }
+
+      state.todos = newTodos
     })
   },
 })

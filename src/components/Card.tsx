@@ -20,7 +20,6 @@ type Props = {
 const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
   const dispatch = useDispatch()
 
-  console.log('Card:', card, dragOverCard)
   return (
     <>
       {card.id === dragOverCard.cardId ? (

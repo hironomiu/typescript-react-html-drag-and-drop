@@ -7,7 +7,7 @@ import {
   setCardModalData,
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/board.Slice'
-import { addTodo, updateTodo } from '../../features/todo/todoSlice'
+import { addTodo, fetchUpdateTodo } from '../../features/todo/todoSlice'
 
 const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const ref = useRef<HTMLInputElement>(null!)
@@ -38,6 +38,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   // TODO: 引数で渡すstateの変数名を合わせる
   // TODO: boardIdを変更した際の新しいboardでの並び順
   const handleClick = () => {
+    console.log('called:', mode)
     if (mode === 'create') {
       dispatch(
         addTodo({
@@ -51,7 +52,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
       dispatch(setIsCreateModalOn(false))
     } else if (mode === 'update') {
       dispatch(
-        updateTodo({
+        fetchUpdateTodo({
           id: cardModalData.id,
           title: input,
           body: textArea,
