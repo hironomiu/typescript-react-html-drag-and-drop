@@ -5,6 +5,7 @@ import {
   setIsUpdateModalOn,
   setCardModalData,
 } from '../features/global/globalSlice'
+import { AppDispatch } from '../app/store'
 
 type Props = {
   card: Todo
@@ -18,7 +19,7 @@ type Props = {
 }
 
 const Card = ({ card, dragOverCard, setDragOverCard }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   return (
     <>

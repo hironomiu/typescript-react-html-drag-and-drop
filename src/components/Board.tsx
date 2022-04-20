@@ -13,7 +13,7 @@ import {
   setBoardIsActive,
 } from '../features/board/board.Slice'
 import { BoardType, Dragged } from '../types'
-
+import { AppDispatch } from '../app/store'
 type Props = {
   board: BoardType
   dragged: Dragged
@@ -34,7 +34,7 @@ const Board = ({
   setDragOverCard,
   setDragged,
 }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const todos = useSelector(selectTodos)
   const boards = useSelector(selectBoards)
   const styleMain =

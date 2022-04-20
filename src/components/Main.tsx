@@ -12,8 +12,10 @@ import {
   setCardModalData,
 } from '../features/global/globalSlice'
 import { fetchBoards } from '../features/board/board.Slice'
+import { AppDispatch } from '../app/store'
+
 const Main = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
   const isCreateModalOn = useSelector(selectIsCreateModalOn)
