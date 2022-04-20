@@ -84,7 +84,7 @@ export const todoSlice = createSlice({
       tmpTodos.push(card)
 
       // ソート処理
-      // TODO: sortTodosに抜き出す
+      // TODO: サーバサイドで実装する
       const resultTodos: Todo[] = [] as Todo[]
 
       action.payload.boards.forEach((board: BoardType) => {

@@ -53,15 +53,6 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
           orderId: 0,
         })
       )
-      // dispatch(
-      //   addTodo({
-      //     id: cardModalData.id,
-      //     title: title,
-      //     body: body,
-      //     boardId: board,
-      //     orderId: cardModalData.orderId,
-      //   })
-      // )
       dispatch(setIsCreateModalOn(false))
     } else if (mode === 'update') {
       dispatch(
