@@ -36,7 +36,6 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
     setBoard(Number(e.target.value))
   }
 
-  // TODO: 引数で渡すstateの変数名を合わせる
   // TODO: boardIdを変更した際の新しいboardでの並び順
   const handleClick = () => {
     console.log('called:', mode)

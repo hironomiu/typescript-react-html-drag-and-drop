@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { Todo } from '../../types'
 
@@ -15,6 +15,28 @@ const initialState: InitialState = {
   isUpdateModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
 }
+
+// TODO: 型
+export const fetchSignIn = createAsyncThunk(
+  'auth/signin',
+  async (data: any) => {
+    const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/auth/signin')
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        //'CSRF-Token': csrfToken
+      },
+      redirect: 'follow',
+      body: JSON.stringify(data),
+    })
+    const json = await response.json()
+    return { json: json }
+  }
+)
 
 export const globalSlice = createSlice({
   name: 'global',
@@ -36,6 +58,11 @@ export const globalSlice = createSlice({
     setIsAuthentication: (state, action) => {
       state.isAuthentication = action.payload
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchSignIn.fulfilled, (state, action) => {
+      console.log('auth fulfilled')
+    })
   },
 })
 

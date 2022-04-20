@@ -6,14 +6,7 @@ type InitialState = {
   todos: Todo[]
 }
 const initialState: InitialState = {
-  // TODO: とりあえず設定、どっかでThunkで取得するよう変更する
-
-  todos: [
-    // { id: 1, title: 'task title1', body: 'task body1', boardId: 1, orderId: 1 },
-    // { id: 2, title: 'task title2', body: 'task body2', boardId: 1, orderId: 2 },
-    // { id: 3, title: 'task title3', body: 'task body3', boardId: 1, orderId: 3 },
-    // { id: 4, title: 'task title4', body: 'task body4', boardId: 1, orderId: 4 },
-  ],
+  todos: [],
 }
 
 export const fetchTodos = createAsyncThunk('todos/fetch', async () => {

@@ -6,6 +6,8 @@ import {
   setIsAuthentication,
   selectIsAuthentication,
 } from '../features/global/globalSlice'
+import { fetchSignIn } from '../features/global/globalSlice'
+
 const SignIn = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -20,6 +22,7 @@ const SignIn = () => {
     setPassword((_prev) => (_prev = e.target.value))
   }
   const handleClick = () => {
+    dispatch(fetchSignIn({ email: email, password: password }))
     dispatch(setIsAuthentication(true))
   }
   useEffect(() => {
