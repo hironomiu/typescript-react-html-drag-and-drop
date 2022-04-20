@@ -18,18 +18,18 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const dispatch = useDispatch()
   const cardModalData = useSelector(selectCardModalData)
   const boards = useSelector(selectBoards)
-  // input
-  const [input, setInput] = useState<string>(() => cardModalData.title)
-  // textarea
-  const [textArea, setTextArea] = useState<string>(() => cardModalData.body)
+  // title
+  const [title, setTitle] = useState<string>(() => cardModalData.title)
+  // body
+  const [body, setBody] = useState<string>(() => cardModalData.body)
   // select
   const [select, setSelect] = useState<number>(() => cardModalData.boardId)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput((_prev) => (_prev = e.target.value))
+    setTitle((_prev) => (_prev = e.target.value))
   }
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextArea((_prev) => (_prev = e.target.value))
+    setBody((_prev) => (_prev = e.target.value))
   }
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelect(Number(e.target.value))
@@ -43,8 +43,8 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
       dispatch(
         addTodo({
           id: cardModalData.id,
-          title: input,
-          body: textArea,
+          title: title,
+          body: body,
           boardId: select,
           orderId: cardModalData.orderId,
         })
@@ -54,8 +54,8 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
       dispatch(
         fetchUpdateTodo({
           id: cardModalData.id,
-          title: input,
-          body: textArea,
+          title: title,
+          body: body,
           boardId: select,
           orderId: cardModalData.orderId,
         })
@@ -69,8 +69,8 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
       boardId: 0,
       orderId: 0,
     })
-    setInput('')
-    setTextArea('')
+    setTitle('')
+    setBody('')
   }
 
   const handleCloseClick = () => {
@@ -83,8 +83,8 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
       boardId: 0,
       orderId: 0,
     })
-    setInput('')
-    setTextArea('')
+    setTitle('')
+    setBody('')
   }
 
   return (
@@ -106,7 +106,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
                 <input
                   className="w-full h-8 p-2"
                   type="text"
-                  value={input}
+                  value={title}
                   onChange={handleInputChange}
                   data-testid="title-input"
                   ref={ref}
@@ -115,7 +115,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
               <p className="text-sm text-gray-700 mt-4">
                 <textarea
                   className="w-full h-40 p-2"
-                  value={textArea}
+                  value={body}
                   onChange={handleTextAreaChange}
                   data-testid="body-textarea"
                 />
@@ -145,7 +145,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
               onClick={handleClick}
               className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 disabled:bg-white disabled:text-gray-200 hover:bg-blue-400 bg-blue-200 text-blue-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
               data-testid="card-modal-create-and-update-button"
-              disabled={input === '' || textArea === '' || select === 0}
+              disabled={title === '' || body === '' || select === 0}
             >
               {mode === 'create' ? 'Create' : 'Update'}
             </button>

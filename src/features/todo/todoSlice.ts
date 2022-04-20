@@ -25,8 +25,7 @@ export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
 
 export const fetchUpdateTodo = createAsyncThunk(
   'todo/update',
-  // TODO: 型
-  async (data: any) => {
+  async (data: Todo) => {
     console.log('fetchUpdateTodo:', data)
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
     const response = await fetch(url.toString(), {
@@ -128,13 +127,21 @@ export const todoSlice = createSlice({
       console.log('loading')
     })
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
-      state.todos = action.payload.map((data: any) => ({
-        id: data.id,
-        title: data.title,
-        body: data.body,
-        boardId: data.board_id,
-        orderId: data.order_id,
-      }))
+      state.todos = action.payload.map(
+        (data: {
+          id: number
+          title: string
+          body: string
+          board_id: number
+          order_id: number
+        }) => ({
+          id: data.id,
+          title: data.title,
+          body: data.body,
+          boardId: data.board_id,
+          orderId: data.order_id,
+        })
+      )
     })
     builder.addCase(fetchUpdateTodo.pending, (state, action) => {
       console.log('fetchUpdateTodo loading')
