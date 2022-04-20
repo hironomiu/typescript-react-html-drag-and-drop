@@ -34,7 +34,7 @@ export const globalSlice = createSlice({
     },
     // TODO: とりあえず作成（サーバサイドで認証を実装したらasyncThunkで再実装）
     setIsAuthentication: (state, action) => {
-      state.isAuthentication = true
+      state.isAuthentication = action.payload
     },
   },
 })
