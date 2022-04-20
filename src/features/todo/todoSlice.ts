@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { response } from 'msw'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
 
