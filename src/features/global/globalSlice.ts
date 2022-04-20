@@ -3,12 +3,14 @@ import { RootState } from '../../app/store'
 import { Todo } from '../../types'
 
 type InitialState = {
+  isAuthentication: boolean
   isCreateModalOn: boolean
   isUpdateModalOn: boolean
   cardModalData: Todo
 }
 
 const initialState: InitialState = {
+  isAuthentication: false,
   isCreateModalOn: false,
   isUpdateModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
@@ -33,6 +35,8 @@ export const globalSlice = createSlice({
   },
 })
 
+export const selectIsAuthentication = (state: RootState) =>
+  state.global.isAuthentication
 export const selectIsCreateModalOn = (state: RootState) =>
   state.global.isCreateModalOn
 export const selectIsUpdateModalOn = (state: RootState) =>

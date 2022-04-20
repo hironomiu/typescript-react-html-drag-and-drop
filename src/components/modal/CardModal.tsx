@@ -7,11 +7,7 @@ import {
   setCardModalData,
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/board.Slice'
-import {
-  addTodo,
-  fetchUpdateTodo,
-  fetchCreateTodo,
-} from '../../features/todo/todoSlice'
+import { fetchUpdateTodo, fetchCreateTodo } from '../../features/todo/todoSlice'
 
 const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const ref = useRef<HTMLInputElement>(null!)

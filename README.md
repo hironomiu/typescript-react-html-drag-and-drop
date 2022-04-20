@@ -131,3 +131,10 @@ npm install react-redux @types/react-redux @reduxjs/toolkit @types/node redux @t
 ```
 npm install --save-dev msw
 ```
+
+### react-router-dom
+
+```
+npm install react-router-dom
+npm install --save-dev @types/react-router-dom
+```

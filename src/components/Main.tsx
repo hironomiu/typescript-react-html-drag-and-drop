@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
@@ -11,15 +12,22 @@ import {
   setIsCreateModalOn,
   setCardModalData,
 } from '../features/global/globalSlice'
+import { selectIsAuthentication } from '../features/global/globalSlice'
 import { fetchBoards } from '../features/board/board.Slice'
 import { AppDispatch } from '../app/store'
 
 const Main = () => {
+  const navigate = useNavigate()
+  const isAuthentication = useSelector(selectIsAuthentication)
   const dispatch = useDispatch<AppDispatch>()
   const boards = useSelector(selectBoards)
   const todos = useSelector(selectTodos)
   const isCreateModalOn = useSelector(selectIsCreateModalOn)
   const isUpdateModalOn = useSelector(selectIsUpdateModalOn)
+
+  useEffect(() => {
+    if (!isAuthentication) navigate('/signin')
+  }, [isAuthentication, navigate])
 
   // TODO: boardsの読み込み（ここで良いか？）
   useEffect(() => {
