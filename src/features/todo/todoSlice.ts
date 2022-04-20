@@ -23,6 +23,28 @@ export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
   return data
 })
 
+export const fetchCreateTodo = createAsyncThunk(
+  'todos/create',
+  async (data: Todo) => {
+    console.log('fetchUpdateTodo:', data)
+    const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        //'CSRF-Token': csrfToken
+      },
+      redirect: 'follow',
+      body: JSON.stringify(data),
+    })
+    const json = await response.json()
+    return { json: json }
+  }
+)
+
 export const fetchUpdateTodo = createAsyncThunk(
   'todo/update',
   async (data: Todo) => {
@@ -155,6 +177,16 @@ export const todoSlice = createSlice({
       newTodos[index] = { ...action.payload.data }
 
       state.todos = newTodos
+    })
+    builder.addCase(fetchCreateTodo.fulfilled, (state, action) => {
+      console.log('finish:', action.payload)
+      state.todos.push({
+        id: action.payload.json.data.id,
+        title: action.payload.json.data.title,
+        body: action.payload.json.data.body,
+        boardId: action.payload.json.data.board_id,
+        orderId: action.payload.json.data.order_id,
+      })
     })
   },
 })

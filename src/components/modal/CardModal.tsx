@@ -7,7 +7,11 @@ import {
   setCardModalData,
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/board.Slice'
-import { addTodo, fetchUpdateTodo } from '../../features/todo/todoSlice'
+import {
+  addTodo,
+  fetchUpdateTodo,
+  fetchCreateTodo,
+} from '../../features/todo/todoSlice'
 
 const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const ref = useRef<HTMLInputElement>(null!)
@@ -22,8 +26,8 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
   const [title, setTitle] = useState<string>(() => cardModalData.title)
   // body
   const [body, setBody] = useState<string>(() => cardModalData.body)
-  // select
-  const [select, setSelect] = useState<number>(() => cardModalData.boardId)
+  // board
+  const [board, setBoard] = useState<number>(() => cardModalData.boardId)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle((_prev) => (_prev = e.target.value))
@@ -32,7 +36,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
     setBody((_prev) => (_prev = e.target.value))
   }
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelect(Number(e.target.value))
+    setBoard(Number(e.target.value))
   }
 
   // TODO: 引数で渡すstateの変数名を合わせる
@@ -41,14 +45,23 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
     console.log('called:', mode)
     if (mode === 'create') {
       dispatch(
-        addTodo({
-          id: cardModalData.id,
+        fetchCreateTodo({
+          id: 0,
           title: title,
           body: body,
-          boardId: select,
-          orderId: cardModalData.orderId,
+          boardId: board,
+          orderId: 0,
         })
       )
+      // dispatch(
+      //   addTodo({
+      //     id: cardModalData.id,
+      //     title: title,
+      //     body: body,
+      //     boardId: board,
+      //     orderId: cardModalData.orderId,
+      //   })
+      // )
       dispatch(setIsCreateModalOn(false))
     } else if (mode === 'update') {
       dispatch(
@@ -56,7 +69,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
           id: cardModalData.id,
           title: title,
           body: body,
-          boardId: select,
+          boardId: board,
           orderId: cardModalData.orderId,
         })
       )
@@ -122,7 +135,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
               </p>
               <select
                 className="mt-2 p-2"
-                value={select}
+                value={board}
                 onChange={handleChange}
               >
                 <option key={0} value="0">
@@ -145,7 +158,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
               onClick={handleClick}
               className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 disabled:bg-white disabled:text-gray-200 hover:bg-blue-400 bg-blue-200 text-blue-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2"
               data-testid="card-modal-create-and-update-button"
-              disabled={title === '' || body === '' || select === 0}
+              disabled={title === '' || body === '' || board === 0}
             >
               {mode === 'create' ? 'Create' : 'Update'}
             </button>
