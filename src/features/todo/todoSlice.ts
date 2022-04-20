@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import { BoardType, Todo } from '../../types'
 
@@ -9,12 +9,19 @@ const initialState: InitialState = {
   // TODO: とりあえず設定、どっかでThunkで取得するよう変更する
 
   todos: [
-    { id: 1, title: 'task title1', body: 'task body1', boardId: 1, orderId: 1 },
-    { id: 2, title: 'task title2', body: 'task body2', boardId: 1, orderId: 2 },
-    { id: 3, title: 'task title3', body: 'task body3', boardId: 1, orderId: 3 },
-    { id: 4, title: 'task title4', body: 'task body4', boardId: 1, orderId: 4 },
+    // { id: 1, title: 'task title1', body: 'task body1', boardId: 1, orderId: 1 },
+    // { id: 2, title: 'task title2', body: 'task body2', boardId: 1, orderId: 2 },
+    // { id: 3, title: 'task title3', body: 'task body3', boardId: 1, orderId: 3 },
+    // { id: 4, title: 'task title4', body: 'task body4', boardId: 1, orderId: 4 },
   ],
 }
+
+export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
+  const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
+  const response = await fetch(url.toString())
+  const data = await response.json()
+  return data
+})
 
 export const todoSlice = createSlice({
   name: 'todo',
@@ -92,6 +99,20 @@ export const todoSlice = createSlice({
 
       state.todos = newTodos
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchTodos.pending, (state) => {
+      console.log('loading')
+    })
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.todos = action.payload.map((data: any) => ({
+        id: data.id,
+        title: data.title,
+        body: data.body,
+        boardId: data.board_id,
+        orderId: data.order_id,
+      }))
+    })
   },
 })
 

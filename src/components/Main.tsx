@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectBoards } from '../features/board/board.Slice'
-import { selectTodos } from '../features/todo/todoSlice'
+import { selectTodos, fetchTodos } from '../features/todo/todoSlice'
 import { Dragged } from '../types'
 import CardModal from './modal/CardModal'
 import {
@@ -22,6 +22,7 @@ const Main = () => {
   // TODO: boardsの読み込み（ここで良いか？）
   useEffect(() => {
     dispatch(fetchBoards())
+    dispatch(fetchTodos())
   }, [dispatch])
 
   // TODO: グローバルで持つか？
