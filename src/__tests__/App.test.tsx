@@ -13,6 +13,6 @@ beforeEach(() => {
 describe('App', () => {
   it('App', async () => {
     render(<App />)
-    expect(await screen.findByText('SignIn')).toBeInTheDocument()
+    expect(screen.getByTestId('signin-button')).toBeInTheDocument()
   })
 })
