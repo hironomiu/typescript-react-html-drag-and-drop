@@ -11,14 +11,17 @@ const initialState: InitialState = {
 
 export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
   const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
-  const response = await fetch(url.toString())
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    credentials: 'include',
+  })
   const data = await response.json()
   return data
 })
 
 export const fetchCreateTodo = createAsyncThunk(
   'todos/create',
-  async (data: Todo) => {
+  async (data: Todo & { csrfToken: string }) => {
     console.log('fetchUpdateTodo:', data)
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
     const response = await fetch(url.toString(), {
@@ -28,7 +31,7 @@ export const fetchCreateTodo = createAsyncThunk(
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        //'CSRF-Token': csrfToken
+        'CSRF-Token': data.csrfToken,
       },
       redirect: 'follow',
       body: JSON.stringify(data),
@@ -40,7 +43,7 @@ export const fetchCreateTodo = createAsyncThunk(
 
 export const fetchUpdateTodo = createAsyncThunk(
   'todo/update',
-  async (data: Todo) => {
+  async (data: Todo & { csrfToken: string }) => {
     console.log('fetchUpdateTodo:', data)
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
     const response = await fetch(url.toString(), {
@@ -50,7 +53,7 @@ export const fetchUpdateTodo = createAsyncThunk(
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        //'CSRF-Token': csrfToken
+        'CSRF-Token': data.csrfToken,
       },
       redirect: 'follow',
       body: JSON.stringify(data),

@@ -6,13 +6,7 @@ type InitialState = {
   boards: BoardType[]
 }
 const initialState: InitialState = {
-  // TODO: 仮で設定 -> どっかでダミーのThunk化にする（その後サーバサイド実装）
-  boards: [
-    // id = Todo.type
-    // { id: 1, title: 'todo', isActive: false },
-    // { id: 2, title: 'doing', isActive: false },
-    // { id: 3, title: 'done', isActive: false },
-  ],
+  boards: [],
 }
 
 export const fetchBoards = createAsyncThunk('boards/fetch', async () => {

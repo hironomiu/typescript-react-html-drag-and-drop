@@ -5,6 +5,7 @@ import {
   setIsUpdateModalOn,
   selectCardModalData,
   setCardModalData,
+  selectCsrfToken,
 } from '../../features/global/globalSlice'
 import { selectBoards } from '../../features/board/boardSlice'
 import { fetchUpdateTodo, fetchCreateTodo } from '../../features/todo/todoSlice'
@@ -18,6 +19,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
 
   const dispatch = useDispatch<AppDispatch>()
   const cardModalData = useSelector(selectCardModalData)
+  const csrfToken = useSelector(selectCsrfToken)
   const boards = useSelector(selectBoards)
   // title
   const [title, setTitle] = useState<string>(() => cardModalData.title)
@@ -47,6 +49,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
           body: body,
           boardId: board,
           orderId: 0,
+          csrfToken: csrfToken,
         })
       )
       dispatch(setIsCreateModalOn(false))
@@ -58,6 +61,7 @@ const CardModal = ({ mode }: { mode: 'update' | 'create' }) => {
           body: body,
           boardId: board,
           orderId: cardModalData.orderId,
+          csrfToken: csrfToken,
         })
       )
       dispatch(setIsUpdateModalOn(false))
