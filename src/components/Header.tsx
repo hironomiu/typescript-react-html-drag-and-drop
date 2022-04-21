@@ -1,13 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch } from '../app/store'
 import {
+  selectCsrfToken,
   selectIsAuthentication,
   setIsAuthentication,
+  fetchSignOut,
 } from '../features/global/globalSlice'
 
 const Header = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const isAuthentication = useSelector(selectIsAuthentication)
+  const csrfToken = useSelector(selectCsrfToken)
   const handleClick = () => {
+    dispatch(fetchSignOut(csrfToken))
     dispatch(setIsAuthentication(false))
   }
   return (

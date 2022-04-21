@@ -52,6 +52,25 @@ export const fetchSignIn = createAsyncThunk(
   }
 )
 
+export const fetchSignOut = createAsyncThunk(
+  'auth/signout',
+  async (data: any) => {
+    const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/auth/signout')
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'CSRF-Token': data,
+      },
+      redirect: 'follow',
+    })
+    const json = await response.json()
+    return { json: json }
+  }
+)
 export const globalSlice = createSlice({
   name: 'global',
   initialState,
