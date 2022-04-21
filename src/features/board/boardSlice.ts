@@ -17,7 +17,11 @@ const initialState: InitialState = {
 
 export const fetchBoards = createAsyncThunk('boards/fetch', async () => {
   const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/boards')
-  const response = await fetch(url.toString())
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    // 認証を通すためcookieを渡す
+    credentials: 'include',
+  })
   const data = await response.json()
   return data
 })

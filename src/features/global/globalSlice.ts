@@ -88,13 +88,19 @@ export const globalSlice = createSlice({
       state.cardModalData = action.payload
     },
     // TODO: とりあえず作成（サーバサイドで認証を実装したらasyncThunkで再実装）
+    // TODO: 不要になったら消す
     setIsAuthentication: (state, action) => {
       state.isAuthentication = action.payload
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchSignIn.fulfilled, (state, action) => {
-      console.log('auth fulfilled')
+    // TODO: 型
+    builder.addCase(fetchSignIn.fulfilled, (state, action: any) => {
+      if (action.payload.json.isSuccess) {
+        console.log('called')
+        state.isAuthentication = true
+      }
+      console.log('auth fulfilled:', action.payload, state.isAuthentication)
     })
     builder.addCase(fetchCsrfToken.fulfilled, (state, action) => {
       state.csrfToken = action.payload.csrfToken

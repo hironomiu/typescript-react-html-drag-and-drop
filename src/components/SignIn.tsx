@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../app/store'
 import {
-  setIsAuthentication,
   selectIsAuthentication,
   selectCsrfToken,
 } from '../features/global/globalSlice'
@@ -27,7 +26,7 @@ const SignIn = () => {
     dispatch(
       fetchSignIn({ email: email, password: password, csrfToken: csrfToken })
     )
-    dispatch(setIsAuthentication(true))
+    // dispatch(setIsAuthentication(true))
   }
   useEffect(() => {
     if (isAuthentication) navigate('/')
