@@ -29,6 +29,17 @@ export const fetchCsrfToken = createAsyncThunk('auth/csrf', async () => {
   return json
 })
 
+export const fetchCheckSignIn = createAsyncThunk('auth/check', async () => {
+  const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/auth/signin')
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    // cookie受け取る
+    credentials: 'include',
+  })
+  const json = response.json()
+  return json
+})
+
 export const fetchSignIn = createAsyncThunk(
   'auth/signin',
   // TODO: 型
@@ -68,7 +79,7 @@ export const fetchSignOut = createAsyncThunk(
       redirect: 'follow',
     })
     const json = await response.json()
-    return { json: json }
+    return json
   }
 )
 export const globalSlice = createSlice({
@@ -105,6 +116,18 @@ export const globalSlice = createSlice({
     builder.addCase(fetchCsrfToken.fulfilled, (state, action) => {
       state.csrfToken = action.payload.csrfToken
       console.log(state.csrfToken)
+    })
+    builder.addCase(fetchSignOut.fulfilled, (state, action) => {
+      console.log(action.payload)
+      // if (action.payload.isSuccess) {
+      //   state.isAuthentication = false
+      // }
+    })
+    builder.addCase(fetchCheckSignIn.fulfilled, (state, action) => {
+      if (action.payload.isSuccess) {
+        state.isAuthentication = true
+      }
+      console.log(action.payload)
     })
   },
 })
