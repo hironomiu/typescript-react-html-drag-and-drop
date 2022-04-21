@@ -5,14 +5,16 @@ import { AppDispatch } from '../app/store'
 import {
   setIsAuthentication,
   selectIsAuthentication,
+  selectCsrfToken,
 } from '../features/global/globalSlice'
 import { fetchSignIn } from '../features/global/globalSlice'
 
 const SignIn = () => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [email, setEmail] = useState<string>('taro@example.com')
+  const [password, setPassword] = useState<string>('password')
   const dispatch = useDispatch<AppDispatch>()
   const isAuthentication = useSelector(selectIsAuthentication)
+  const csrfToken = useSelector(selectCsrfToken)
   const navigate = useNavigate()
   const ref = useRef<HTMLInputElement>(null!)
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +24,9 @@ const SignIn = () => {
     setPassword((_prev) => (_prev = e.target.value))
   }
   const handleClick = () => {
-    dispatch(fetchSignIn({ email: email, password: password }))
+    dispatch(
+      fetchSignIn({ email: email, password: password, csrfToken: csrfToken })
+    )
     dispatch(setIsAuthentication(true))
   }
   useEffect(() => {

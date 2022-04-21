@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import Card from '../components/Card'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import boardReducer from '../features/board/board.Slice'
+import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
 import globalReducer from '../features/global/globalSlice'
 

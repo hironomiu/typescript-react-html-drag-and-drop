@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Board from './Board'
 import { useSelector, useDispatch } from 'react-redux'
-import { selectBoards } from '../features/board/board.Slice'
+import { selectBoards } from '../features/board/boardSlice'
 import { selectTodos, fetchTodos } from '../features/todo/todoSlice'
 import { Dragged } from '../types'
 import CardModal from './modal/CardModal'
@@ -13,7 +13,7 @@ import {
   setCardModalData,
 } from '../features/global/globalSlice'
 import { selectIsAuthentication } from '../features/global/globalSlice'
-import { fetchBoards } from '../features/board/board.Slice'
+import { fetchBoards } from '../features/board/boardSlice'
 import { AppDispatch } from '../app/store'
 
 const Main = () => {

@@ -3,7 +3,7 @@ import Cards from '../components/Cards'
 import { Todo } from '../types'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import boardReducer from '../features/board/board.Slice'
+import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
 import globalReducer from '../features/global/globalSlice'
 

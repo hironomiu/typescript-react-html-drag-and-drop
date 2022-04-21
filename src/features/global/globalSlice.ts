@@ -7,6 +7,7 @@ type InitialState = {
   isCreateModalOn: boolean
   isUpdateModalOn: boolean
   cardModalData: Todo
+  csrfToken: string
 }
 
 const initialState: InitialState = {
@@ -14,12 +15,25 @@ const initialState: InitialState = {
   isCreateModalOn: false,
   isUpdateModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
+  csrfToken: '',
 }
 
-// TODO: 型
+export const fetchCsrfToken = createAsyncThunk('auth/csrf', async () => {
+  const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/csrf-token')
+  const response = await fetch(url.toString(), {
+    method: 'GET',
+    // cookie受け取る
+    credentials: 'include',
+  })
+  const json = response.json()
+  return json
+})
+
 export const fetchSignIn = createAsyncThunk(
   'auth/signin',
+  // TODO: 型
   async (data: any) => {
+    console.log(data)
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/auth/signin')
     const response = await fetch(url.toString(), {
       method: 'POST',
@@ -28,10 +42,10 @@ export const fetchSignIn = createAsyncThunk(
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        //'CSRF-Token': csrfToken
+        'CSRF-Token': data.csrfToken,
       },
       redirect: 'follow',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ email: data.email, password: data.password }),
     })
     const json = await response.json()
     return { json: json }
@@ -63,9 +77,14 @@ export const globalSlice = createSlice({
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       console.log('auth fulfilled')
     })
+    builder.addCase(fetchCsrfToken.fulfilled, (state, action) => {
+      state.csrfToken = action.payload.csrfToken
+      console.log(state.csrfToken)
+    })
   },
 })
 
+export const selectCsrfToken = (state: RootState) => state.global.csrfToken
 export const selectIsAuthentication = (state: RootState) =>
   state.global.isAuthentication
 export const selectIsCreateModalOn = (state: RootState) =>

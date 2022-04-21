@@ -1,16 +1,15 @@
 import { useEffect } from 'react'
 import Header from './Header'
 import { Outlet } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../app/store'
+import { fetchCsrfToken } from '../features/global/globalSlice'
 
 const Layout = () => {
+  const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
-    // TODO: reduxにもっていく
-    ;(async () => {
-      const response = await fetch('http://localhost:8888/api/v1/csrf-token')
-      const data = await response.json()
-      console.log(data)
-    })()
-  }, [])
+    dispatch(fetchCsrfToken())
+  }, [dispatch])
 
   return (
     // Gradient Color Stops https://tailwindcss.com/docs/gradient-color-stops

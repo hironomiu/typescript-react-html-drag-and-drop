@@ -11,7 +11,7 @@ import {
   selectBoards,
   setAllBoardIsActiveFlase,
   setBoardIsActive,
-} from '../features/board/board.Slice'
+} from '../features/board/boardSlice'
 import { BoardType, Dragged } from '../types'
 import { AppDispatch } from '../app/store'
 type Props = {

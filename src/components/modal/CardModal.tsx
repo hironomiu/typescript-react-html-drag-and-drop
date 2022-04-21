@@ -6,7 +6,7 @@ import {
   selectCardModalData,
   setCardModalData,
 } from '../../features/global/globalSlice'
-import { selectBoards } from '../../features/board/board.Slice'
+import { selectBoards } from '../../features/board/boardSlice'
 import { fetchUpdateTodo, fetchCreateTodo } from '../../features/todo/todoSlice'
 import { AppDispatch } from '../../app/store'
 
