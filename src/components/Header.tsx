@@ -11,9 +11,11 @@ const Header = () => {
   const dispatch = useDispatch<AppDispatch>()
   const isAuthentication = useSelector(selectIsAuthentication)
   const csrfToken = useSelector(selectCsrfToken)
-  const handleClick = () => {
+  // TODO: 型
+  const handleClick = (e: any) => {
+    e.preventDefault()
     dispatch(fetchSignOut(csrfToken))
-    dispatch(setIsAuthentication(false))
+    // dispatch(setIsAuthentication(false))
   }
   return (
     <header className="flex h-20 border-b-[1px] items-center space-x-4 text-white font-bold text-2xl justify-between">

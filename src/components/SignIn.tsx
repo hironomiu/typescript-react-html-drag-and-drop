@@ -22,7 +22,9 @@ const SignIn = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword((_prev) => (_prev = e.target.value))
   }
-  const handleClick = () => {
+  // TODO: 型
+  const handleClick = (e: any) => {
+    e.preventDefault()
     dispatch(
       fetchSignIn({ email: email, password: password, csrfToken: csrfToken })
     )

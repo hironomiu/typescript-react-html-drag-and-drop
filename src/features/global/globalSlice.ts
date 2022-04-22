@@ -59,7 +59,7 @@ export const fetchSignIn = createAsyncThunk(
       body: JSON.stringify({ email: data.email, password: data.password }),
     })
     const json = await response.json()
-    return { json: json }
+    return json
   }
 )
 
@@ -107,8 +107,8 @@ export const globalSlice = createSlice({
   extraReducers(builder) {
     // TODO: 型
     builder.addCase(fetchSignIn.fulfilled, (state, action: any) => {
-      if (action.payload.json.isSuccess) {
-        console.log('called')
+      if (action.payload.isSuccess) {
+        console.log('called:', action.payload)
         state.isAuthentication = true
       }
       console.log('auth fulfilled:', action.payload, state.isAuthentication)
@@ -119,15 +119,15 @@ export const globalSlice = createSlice({
     })
     builder.addCase(fetchSignOut.fulfilled, (state, action) => {
       console.log(action.payload)
-      // if (action.payload.isSuccess) {
-      //   state.isAuthentication = false
-      // }
+      if (action.payload.isSuccess) {
+        state.isAuthentication = false
+      }
     })
     builder.addCase(fetchCheckSignIn.fulfilled, (state, action) => {
       if (action.payload.isSuccess) {
         state.isAuthentication = true
       }
-      console.log(action.payload)
+      console.log('check signin:', action.payload)
     })
   },
 })

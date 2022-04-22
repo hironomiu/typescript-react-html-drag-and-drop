@@ -45,12 +45,17 @@ export const boardSlice = createSlice({
       console.log('loading')
     })
     builder.addCase(fetchBoards.fulfilled, (state, action) => {
-      // MEMO: isActiveはboardにドラッグオーバーしてる状態を管理（DBでは持っていない）
-      state.boards = action.payload.map((data: any) => ({
-        id: data.id,
-        title: data.title,
-        isActive: false,
-      }))
+      if (action.payload.isSuccess) {
+        // MEMO: isActiveはboardにドラッグオーバーしてる状態を管理（DBでは持っていない）
+        state.boards = action.payload.boards.map((data: any) => ({
+          id: data.id,
+          title: data.title,
+          isActive: false,
+        }))
+      } else {
+        // TODO: とりあえず出力
+        console.log(action.payload)
+      }
     })
   },
 })
