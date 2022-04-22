@@ -1,9 +1,9 @@
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from '../app/store'
 import {
   selectCsrfToken,
   selectIsAuthentication,
-  setIsAuthentication,
   fetchSignOut,
 } from '../features/global/globalSlice'
 
@@ -15,7 +15,6 @@ const Header = () => {
   const handleClick = (e: any) => {
     e.preventDefault()
     dispatch(fetchSignOut(csrfToken))
-    // dispatch(setIsAuthentication(false))
   }
   return (
     <header className="flex h-20 border-b-[1px] items-center space-x-4 text-white font-bold text-2xl justify-between">
