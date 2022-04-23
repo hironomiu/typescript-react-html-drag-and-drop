@@ -1,14 +1,25 @@
 import { rest } from 'msw'
 
 export const handlers = [
+  rest.post('http://localhost:8888/api/v1/auth/signin', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        isSuccess: true,
+      })
+    )
+  }),
   rest.get('http://localhost:8888/api/v1/boards', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json([
-        { id: 1, title: 'todo' },
-        { id: 2, title: 'doing' },
-        { id: 3, title: 'done' },
-      ])
+      ctx.json({
+        isSuccess: true,
+        boards: [
+          { id: 1, title: 'todo' },
+          { id: 2, title: 'doing' },
+          { id: 3, title: 'done' },
+        ],
+      })
     )
   }),
   rest.get('http://localhost:8888/api/v1/todos', (req, res, ctx) => {
