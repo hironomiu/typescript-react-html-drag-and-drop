@@ -1,20 +1,18 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch } from '../app/store'
 import {
-  selectCsrfToken,
   selectIsAuthentication,
-  fetchSignOut,
+  selectIsSignOutModalOn,
+  setIsSignOutModalOn,
 } from '../features/global/globalSlice'
+import SignOutModal from './modal/SignOutModal'
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>()
   const isAuthentication = useSelector(selectIsAuthentication)
-  const csrfToken = useSelector(selectCsrfToken)
-  // TODO: 型
-  const handleClick = (e: any) => {
-    e.preventDefault()
-    dispatch(fetchSignOut(csrfToken))
+  const isSignOutModalOn = useSelector(selectIsSignOutModalOn)
+  const handleClick = () => {
+    dispatch(setIsSignOutModalOn(true))
   }
   return (
     <header className="flex h-20 border-b-[1px] items-center space-x-4 text-white font-bold text-2xl justify-between">
@@ -25,6 +23,8 @@ const Header = () => {
             SignOut
           </span>
         ) : null}
+        {/* TODO: 上に組み込む方が自然 */}
+        {isSignOutModalOn ? <SignOutModal /> : null}
       </nav>
     </header>
   )

@@ -6,6 +6,7 @@ type InitialState = {
   isAuthentication: boolean
   isCreateModalOn: boolean
   isUpdateModalOn: boolean
+  isSignOutModalOn: boolean
   cardModalData: Todo
   csrfToken: string
 }
@@ -14,6 +15,7 @@ const initialState: InitialState = {
   isAuthentication: false,
   isCreateModalOn: false,
   isUpdateModalOn: false,
+  isSignOutModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
   csrfToken: '',
 }
@@ -98,6 +100,9 @@ export const globalSlice = createSlice({
     setCardModalData: (state, action) => {
       state.cardModalData = action.payload
     },
+    setIsSignOutModalOn: (state, action) => {
+      state.isSignOutModalOn = action.payload
+    },
     // TODO: とりあえず作成（サーバサイドで認証を実装したらasyncThunkで再実装）
     // TODO: 不要になったら消す
     setIsAuthentication: (state, action) => {
@@ -141,10 +146,13 @@ export const selectIsUpdateModalOn = (state: RootState) =>
   state.global.isUpdateModalOn
 export const selectCardModalData = (state: RootState) =>
   state.global.cardModalData
+export const selectIsSignOutModalOn = (state: RootState) =>
+  state.global.isSignOutModalOn
 export const {
   setIsCreateModalOn,
   setIsUpdateModalOn,
   setCardModalData,
   setIsAuthentication,
+  setIsSignOutModalOn,
 } = globalSlice.actions
 export default globalSlice.reducer

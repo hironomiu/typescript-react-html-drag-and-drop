@@ -89,7 +89,8 @@ const Board = ({
       }
     }
     // TODO: setTodoBoardId 呼び出し後のstate.todosの状態を反映させてsetAllBoardIsActiveFlaseを呼ぶ
-    // console.log('hoge:', todos)
+    console.log('hoge:', todos)
+    console.log('called')
     // dispatch(fetchAllTodosPost({ csrfToken: csrfToken, todos: todos }))
     dispatch(setAllBoardIsActiveFlase())
     setDragged({ id: 0, current: 'todo', target: 'todo' })
@@ -130,7 +131,7 @@ const Board = ({
       // onDragStart={() => console.log(`${board.title} drag start`)}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
-      // onDrop={() => console.log(`${board.title} on drop`)}
+      onDrop={() => console.log(`${board.title} on drop`)}
       onDragLeave={handleOnLeave}
       // onDragEnter={() => console.log(`${board.title} drag enter`)}
     >
