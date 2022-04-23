@@ -6,12 +6,14 @@ import {
   selectTodos,
   setTodoBoardId,
   swapTodo,
+  fetchAllTodosPost,
 } from '../features/todo/todoSlice'
 import {
   selectBoards,
   setAllBoardIsActiveFlase,
   setBoardIsActive,
 } from '../features/board/boardSlice'
+import { selectCsrfToken } from '../features/global/globalSlice'
 import { BoardType, Dragged } from '../types'
 import { AppDispatch } from '../app/store'
 type Props = {
@@ -37,6 +39,7 @@ const Board = ({
   const dispatch = useDispatch<AppDispatch>()
   const todos = useSelector(selectTodos)
   const boards = useSelector(selectBoards)
+  const csrfToken = useSelector(selectCsrfToken)
   const styleMain =
     'w-64 h-[80vh] mx-4 flex flex-col wjustify-center items-center rounded-xl overflow-y-auto'
   const styleActive = 'bg-blue-500'
@@ -85,9 +88,12 @@ const Board = ({
         )
       }
     }
+    // TODO: setTodoBoardId 呼び出し後のstate.todosの状態を反映させてsetAllBoardIsActiveFlaseを呼ぶ
+    // console.log('hoge:', todos)
+    // dispatch(fetchAllTodosPost({ csrfToken: csrfToken, todos: todos }))
+    dispatch(setAllBoardIsActiveFlase())
     setDragged({ id: 0, current: 'todo', target: 'todo' })
     setDragOverCard({ cardId: 0, orderId: 0 })
-    dispatch(setAllBoardIsActiveFlase())
   }
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {

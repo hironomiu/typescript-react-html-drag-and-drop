@@ -9,6 +9,29 @@ const initialState: InitialState = {
   todos: [],
 }
 
+// TODO: エンドポイント
+export const fetchAllTodosPost = createAsyncThunk(
+  'todos/allpost',
+  async (data: any) => {
+    const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos/all')
+    console.log(data)
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'CSRF-Token': data.csrfToken,
+      },
+      redirect: 'follow',
+      body: JSON.stringify(data.todos),
+    })
+    const json = await response.json()
+    return { json: json }
+  }
+)
+
 export const fetchTodos = createAsyncThunk('todos/fetch', async () => {
   const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos')
   const response = await fetch(url.toString(), {
@@ -93,6 +116,8 @@ export const todoSlice = createSlice({
       })
 
       state.todos = resultTodos
+      // TODO: fetchAllTodosPostを呼ぶ
+      console.log('setTodoBoardId:', state.todos)
     },
     // TODO: 上下のソートを抜き出す
     sortTodos: (state, action) => {},
