@@ -88,9 +88,8 @@ const Board = ({
         )
       }
     }
-    // TODO: setTodoBoardId 呼び出し後のstate.todosの状態を反映させてsetAllBoardIsActiveFlaseを呼ぶ
-    console.log('hoge:', todos)
-    console.log('called')
+
+    // TODO: asyncThunk側でgetState()でtodosの最新は取れるのでここでは渡さない
     dispatch(fetchAllTodosPost({ csrfToken: csrfToken, todos: todos }))
     dispatch(setAllBoardIsActiveFlase())
     setDragged({ id: 0, current: 'todo', target: 'todo' })
