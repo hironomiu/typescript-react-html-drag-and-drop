@@ -13,7 +13,7 @@ const initialState: InitialState = {
 export const fetchAllTodosPost = createAsyncThunk(
   'todos/allpost',
   // TODO: 型
-  async (data: { csrfToken: string }, thunkAPI: any) => {
+  async (csrfToken: string, thunkAPI: any) => {
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos/all')
     const todos = thunkAPI.getState()
     const response = await fetch(url.toString(), {
@@ -23,7 +23,7 @@ export const fetchAllTodosPost = createAsyncThunk(
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'CSRF-Token': data.csrfToken,
+        'CSRF-Token': csrfToken,
       },
       redirect: 'follow',
       body: JSON.stringify(todos.todo.todos),
