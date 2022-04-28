@@ -4,6 +4,8 @@ import { store } from './app/store'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Main from './components/Main'
 import SignIn from './components/SignIn'
+import Profile from './components/Profile'
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -11,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Main />}></Route>
+            <Route path="/profile" element={<Profile />}></Route>
             <Route path="/signin" element={<SignIn />}></Route>
           </Route>
         </Routes>

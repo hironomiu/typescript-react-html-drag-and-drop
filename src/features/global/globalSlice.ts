@@ -9,6 +9,11 @@ type InitialState = {
   isSignOutModalOn: boolean
   cardModalData: Todo
   csrfToken: string
+  user: {
+    id: number
+    nickname: string
+    email: string
+  }
 }
 
 const initialState: InitialState = {
@@ -18,6 +23,11 @@ const initialState: InitialState = {
   isSignOutModalOn: false,
   cardModalData: { id: 0, title: '', body: '', boardId: 0, orderId: 0 },
   csrfToken: '',
+  user: {
+    id: 0,
+    nickname: '',
+    email: '',
+  },
 }
 
 export const fetchCsrfToken = createAsyncThunk('auth/csrf', async () => {
@@ -110,11 +120,12 @@ export const globalSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    // TODO: 型
-    builder.addCase(fetchSignIn.fulfilled, (state, action: any) => {
+    builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       if (action.payload.isSuccess) {
-        console.log('called:', action.payload)
         state.isAuthentication = true
+        state.user.id = action.payload.id
+        state.user.nickname = action.payload.nickname
+        state.user.email = action.payload.email
       }
       console.log('auth fulfilled:', action.payload, state.isAuthentication)
     })
@@ -123,14 +134,17 @@ export const globalSlice = createSlice({
       console.log(state.csrfToken)
     })
     builder.addCase(fetchSignOut.fulfilled, (state, action) => {
-      console.log(action.payload)
       if (action.payload.isSuccess) {
         state.isAuthentication = false
       }
     })
     builder.addCase(fetchCheckSignIn.fulfilled, (state, action) => {
       if (action.payload.isSuccess) {
+        console.log(action.payload)
         state.isAuthentication = true
+        state.user.id = action.payload.id
+        state.user.nickname = action.payload.nickname
+        state.user.email = action.payload.email
       }
       console.log('check signin:', action.payload)
     })
@@ -148,6 +162,7 @@ export const selectCardModalData = (state: RootState) =>
   state.global.cardModalData
 export const selectIsSignOutModalOn = (state: RootState) =>
   state.global.isSignOutModalOn
+export const selectUser = (state: RootState) => state.global.user
 export const {
   setIsCreateModalOn,
   setIsUpdateModalOn,
