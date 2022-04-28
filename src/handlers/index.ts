@@ -1,6 +1,16 @@
 import { rest } from 'msw'
 
 export const handlers = [
+  // [MSW] Warning: captured a request without a matching request handler:
+  rest.post('http://localhost:8888/api/v1/csrf-token', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        csrfToken: 'csrfToken',
+      })
+    )
+  }),
+  // [MSW] Warning: captured a request without a matching request handler:
   rest.post('http://localhost:8888/api/v1/auth/signin', (req, res, ctx) => {
     return res(
       ctx.status(200),

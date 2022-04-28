@@ -57,6 +57,9 @@ export const boardSlice = createSlice({
         console.log(action.payload)
       }
     })
+    builder.addCase(fetchBoards.rejected, (_, action) => {
+      console.log('fetchBoards error', action.error)
+    })
   },
 })
 
