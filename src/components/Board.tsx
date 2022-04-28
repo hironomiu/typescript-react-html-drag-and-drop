@@ -89,7 +89,6 @@ const Board = ({
       }
     }
 
-    // TODO: asyncThunk側でgetState()でtodosの最新は取れるのでここでは渡さない
     dispatch(fetchAllTodosPost(csrfToken))
     dispatch(setAllBoardIsActiveFlase())
     setDragged({ id: 0, current: 'todo', target: 'todo' })

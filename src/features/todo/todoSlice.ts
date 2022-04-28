@@ -13,9 +13,10 @@ const initialState: InitialState = {
 export const fetchAllTodosPost = createAsyncThunk(
   'todos/allpost',
   // TODO: 型
-  async (csrfToken: string, thunkAPI: any) => {
+  async (csrfToken: string, thunkAPI: { getState: () => any }) => {
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/todos/all')
     const todos = thunkAPI.getState()
+    console.log('fetchAllTodosPost:', todos)
     const response = await fetch(url.toString(), {
       method: 'POST',
       mode: 'cors',
