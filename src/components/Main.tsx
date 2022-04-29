@@ -74,7 +74,7 @@ const Main = () => {
   }
 
   return (
-    <div className="flex w-scree">
+    <div className="flex w-screen">
       {isCreateModalOn ? (
         <>
           <CardModal mode={'create'} />

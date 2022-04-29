@@ -20,7 +20,9 @@ const Header = () => {
   return (
     <header className="flex h-20 border-b-[1px] items-center space-x-4 text-white font-bold text-2xl justify-between">
       <div className="flex">
-        <div className="ml-4">Super DnD</div>
+        <Link to="/" className="ml-4">
+          Super DnD
+        </Link>
         <Link to="/profile" className="ml-4">
           {user.nickname}
         </Link>
