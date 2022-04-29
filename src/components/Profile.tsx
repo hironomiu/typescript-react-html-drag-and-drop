@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../features/global/globalSlice'
@@ -10,13 +9,18 @@ const Profile = () => {
     navigate('/')
   }
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center">
       <h1 className="mt-10 text-2xl font-bold">Profile</h1>
       <div className="flex flex-col">
-        <span>nickname:{user.nickname}</span>
-        <span>email:{user.email}</span>
+        <span className="my-2">Nick Name: {user.nickname}</span>
+        <span className="my-2">Email: {user.email}</span>
       </div>
-      <span onClick={handleTopClick}>Top</span>
+      <span
+        onClick={handleTopClick}
+        className="hover:cursor-pointer hover:border-b-2 hover:border-b-black"
+      >
+        Top
+      </span>
     </div>
   )
 }
