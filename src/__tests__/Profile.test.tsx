@@ -6,10 +6,6 @@ import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
 import globalReducer, { setUser } from '../features/global/globalSlice'
 import { BrowserRouter } from 'react-router-dom'
-import { setupServer } from 'msw/node'
-import { handlers } from '../handlers'
-
-const server = setupServer(...handlers)
 
 const store = configureStore({
   reducer: {
@@ -19,21 +15,8 @@ const store = configureStore({
   },
 })
 
-beforeEach(() => {
-  server.listen()
-})
-
 describe('Profile', () => {
   it('Profile', async () => {
-    render(
-      <BrowserRouter>
-        <Provider store={store}>
-          <Profile />
-        </Provider>
-      </BrowserRouter>
-    )
-    expect(screen.getByText('Profile')).toBeInTheDocument()
-
     const action = {
       type: setUser.type,
       payload: {
@@ -45,8 +28,15 @@ describe('Profile', () => {
       },
     }
     store.dispatch(action)
-
-    expect(await screen.findByText('Profile')).toBeInTheDocument()
-    // screen.debug()
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <Profile />
+        </Provider>
+      </BrowserRouter>
+    )
+    expect(screen.getByText('Profile')).toBeInTheDocument()
+    expect(screen.getByText('Nick Name: 太郎')).toBeInTheDocument()
+    expect(screen.getByText('Email: taro@example.com')).toBeInTheDocument()
   })
 })
