@@ -16,6 +16,10 @@ export const handlers = [
       ctx.status(200),
       ctx.json({
         isSuccess: true,
+        id: 1,
+        nickname: '太郎',
+        email: 'taro@example.com',
+        message: 'success',
       })
     )
   }),

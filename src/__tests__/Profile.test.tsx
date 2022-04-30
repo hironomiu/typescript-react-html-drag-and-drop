@@ -4,8 +4,12 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
-import globalReducer from '../features/global/globalSlice'
+import globalReducer, { setUser } from '../features/global/globalSlice'
 import { BrowserRouter } from 'react-router-dom'
+import { setupServer } from 'msw/node'
+import { handlers } from '../handlers'
+
+const server = setupServer(...handlers)
 
 const store = configureStore({
   reducer: {
@@ -15,8 +19,12 @@ const store = configureStore({
   },
 })
 
+beforeEach(() => {
+  server.listen()
+})
+
 describe('Profile', () => {
-  it('Profile', () => {
+  it('Profile', async () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
@@ -25,5 +33,20 @@ describe('Profile', () => {
       </BrowserRouter>
     )
     expect(screen.getByText('Profile')).toBeInTheDocument()
+
+    const action = {
+      type: setUser.type,
+      payload: {
+        isSuccess: true,
+        id: 1,
+        nickname: '太郎',
+        email: 'taro@example.com',
+        message: 'success',
+      },
+    }
+    store.dispatch(action)
+
+    expect(await screen.findByText('Profile')).toBeInTheDocument()
+    // screen.debug()
   })
 })

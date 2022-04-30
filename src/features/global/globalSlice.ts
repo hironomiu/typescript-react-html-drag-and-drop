@@ -118,10 +118,17 @@ export const globalSlice = createSlice({
     setIsAuthentication: (state, action) => {
       state.isAuthentication = action.payload
     },
+    // TODO: test用以外に利用していいない
+    setUser: (state, action) => {
+      state.user.id = action.payload.id
+      state.user.nickname = action.payload.nickname
+      state.user.email = action.payload.email
+    },
   },
   extraReducers(builder) {
     builder.addCase(fetchSignIn.fulfilled, (state, action) => {
       if (action.payload.isSuccess) {
+        console.log('fetchSignIn:', action.payload)
         state.isAuthentication = true
         state.user.id = action.payload.id
         state.user.nickname = action.payload.nickname
@@ -140,7 +147,7 @@ export const globalSlice = createSlice({
     })
     builder.addCase(fetchCheckSignIn.fulfilled, (state, action) => {
       if (action.payload.isSuccess) {
-        console.log(action.payload)
+        console.log('fetchCheckSignIn:', action.payload)
         state.isAuthentication = true
         state.user.id = action.payload.id
         state.user.nickname = action.payload.nickname
@@ -169,5 +176,6 @@ export const {
   setCardModalData,
   setIsAuthentication,
   setIsSignOutModalOn,
+  setUser,
 } = globalSlice.actions
 export default globalSlice.reducer
