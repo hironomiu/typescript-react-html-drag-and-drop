@@ -56,7 +56,6 @@ export const fetchSignIn = createAsyncThunk(
   'auth/signin',
   // TODO: 型
   async (data: any) => {
-    console.log(data)
     const url = new URL(process.env.REACT_APP_API_URL + '/api/v1/auth/signin')
     const response = await fetch(url.toString(), {
       method: 'POST',
@@ -133,6 +132,8 @@ export const globalSlice = createSlice({
         state.user.id = action.payload.id
         state.user.nickname = action.payload.nickname
         state.user.email = action.payload.email
+      } else {
+        console.log(action.payload.message)
       }
       console.log('auth fulfilled:', action.payload, state.isAuthentication)
     })
