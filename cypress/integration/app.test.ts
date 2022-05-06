@@ -11,6 +11,7 @@ describe('App', () => {
         _csrf = c
       })
 
+    // TODO: _csrfの渡し方（したのやり方だと直接APIを叩いていてNG）
     cy.get('[data-testid=signin-button]')
       .click()
       .then(() => {
@@ -22,7 +23,6 @@ describe('App', () => {
         })
       })
 
-    // TODO: _csrfの渡し方
     cy.get('[data-testid=card-create-button]').click()
     // cy.get('[data-testid=title-input]').type('test title')
     // cy.get('[data-testid=body-textarea]').type('test body')
