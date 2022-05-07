@@ -17,6 +17,7 @@ const Profile = () => {
       </div>
       <span
         onClick={handleTopClick}
+        data-testid="top-button"
         className="hover:cursor-pointer hover:border-b-2 hover:border-b-black"
       >
         Top

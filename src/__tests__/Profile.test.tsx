@@ -6,6 +6,7 @@ import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
 import globalReducer, { setUser } from '../features/global/globalSlice'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 
 const store = configureStore({
   reducer: {
@@ -38,5 +39,9 @@ describe('Profile', () => {
     expect(screen.getByText('Profile')).toBeInTheDocument()
     expect(screen.getByText('Nick Name: 太郎')).toBeInTheDocument()
     expect(screen.getByText('Email: taro@example.com')).toBeInTheDocument()
+    expect(screen.getByText('Top')).toBeInTheDocument()
+    userEvent.click(screen.getByTestId('top-button'))
+    // TODO: clickイベントで遷移
+    // expect(await screen.findByText('todo')).toBeInTheDocument()
   })
 })
