@@ -40,8 +40,5 @@ describe('Profile', () => {
     expect(screen.getByText('Nick Name: 太郎')).toBeInTheDocument()
     expect(screen.getByText('Email: taro@example.com')).toBeInTheDocument()
     expect(screen.getByText('Top')).toBeInTheDocument()
-    userEvent.click(screen.getByTestId('top-button'))
-    // TODO: clickイベントで遷移(このテスト内では不可能なので別で行う)
-    // expect(await screen.findByText('todo')).toBeInTheDocument()
   })
 })

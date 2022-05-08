@@ -23,7 +23,7 @@ const Header = () => {
         <Link to="/" className="ml-4">
           Super DnD
         </Link>
-        <Link to="/profile" className="ml-4">
+        <Link to="/profile" className="ml-4" data-testid="profile">
           {user.nickname}
         </Link>
       </div>
