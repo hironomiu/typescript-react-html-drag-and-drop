@@ -6,7 +6,6 @@ import boardReducer from '../features/board/boardSlice'
 import todoReducer from '../features/todo/todoSlice'
 import globalReducer, { setUser } from '../features/global/globalSlice'
 import { BrowserRouter } from 'react-router-dom'
-import userEvent from '@testing-library/user-event'
 
 const store = configureStore({
   reducer: {

@@ -17,6 +17,14 @@ beforeEach(() => {
   server.listen()
 })
 
+afterEach(() => {
+  server.resetHandlers()
+})
+
+afterAll(() => {
+  server.close()
+})
+
 const store = configureStore({
   reducer: {
     board: boardReducer,

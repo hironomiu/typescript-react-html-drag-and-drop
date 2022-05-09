@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import App from '../App'
 import { setupServer } from 'msw/node'
 import { handlers } from '../handlers'
@@ -12,6 +12,14 @@ beforeEach(() => {
   server.listen()
 })
 
+afterEach(() => {
+  server.resetHandlers()
+})
+
+afterAll(() => {
+  server.close()
+})
+
 describe('App', () => {
   it('App', async () => {
     render(<App />)
@@ -20,6 +28,6 @@ describe('App', () => {
     expect(await screen.findByText('Profile')).toBeInTheDocument()
     userEvent.click(screen.getByTestId('top-button'))
     // TODO: Error: Cross origin http://localhost forbidden
-    // expect(await screen.findByText('todo')).toBeInTheDocument()
+    // expect(screen.getByText('todo')).toBeInTheDocument()
   })
 })
