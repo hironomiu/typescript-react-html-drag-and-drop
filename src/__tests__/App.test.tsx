@@ -24,6 +24,7 @@ describe('App', () => {
   it('App', async () => {
     render(<App />)
     expect(screen.getByTestId('signin-button')).toBeInTheDocument()
+    screen.debug()
     userEvent.click(screen.getByTestId('profile'))
     expect(await screen.findByText('Profile')).toBeInTheDocument()
     userEvent.click(screen.getByTestId('top-button'))
