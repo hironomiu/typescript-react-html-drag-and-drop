@@ -12,6 +12,12 @@ HTML Drag & Drop API を利用したドラッグ&ドロップ
 npm install
 ```
 
+### .env.local
+
+| 変数              | 設定値           |
+| :---------------- | :--------------- |
+| REACT_APP_API_URL | API サーバの URL |
+
 ## Run
 
 ```
